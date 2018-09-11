@@ -1,5 +1,5 @@
-# Lammps logfile reader
-Tool to read a lammps logfile into a simple python data structure with a `get()`-function providing the log data. 
+# LAMMPS logfile reader
+Tool to read a logfile produced by [LAMMPS](lammps.sandia.gov) into a simple python data structure with a `get()`-function providing the log data. 
 
 ## Installation
 ```
