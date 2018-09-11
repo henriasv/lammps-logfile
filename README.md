@@ -1,6 +1,13 @@
 # Lammps logfile reader
 Tool to read a lammps logfile into a reasonable python data structure.
 
+## Installation
+```
+git clone https://github.com/henriasv/lammps-logfile.git
+cd lammps-logfile
+python setup.py install
+```
+
 ## Basic usage
 
 ```
@@ -25,3 +32,5 @@ y = log.get("Temp", run_num=N)
 plt.plot(x, y)
 ```
 In this case, `x` and `y` will contain the log data from the `N`'th `run` command in LAMMPS, counting from 0.
+
+Any invalid call to the `get()`-function will result in the function returning `None`. This happes if the user asks for a thermo propery that does not exist in the log file, or if the user asks for a `run_num` larger than the number of runs in the logfile. 
