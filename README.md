@@ -5,7 +5,7 @@ Tool to read a logfile produced by [LAMMPS](https://lammps.sandia.gov) into a si
 ```
 git clone https://github.com/henriasv/lammps-logfile.git
 cd lammps-logfile
-python setup.py install
+pip3 install .
 ```
 
 ## Basic usage
