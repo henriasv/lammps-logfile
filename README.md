@@ -1,5 +1,5 @@
 # Lammps logfile reader
-Tool to read a lammps logfile into a reasonable python data structure.
+Tool to read a lammps logfile into a simple python data structure with a `get()`-function providing the log data. 
 
 ## Installation
 ```
