@@ -8,7 +8,7 @@ class File:
         self.start_thermo_strings = ["Memory usage per processor", "Per MPI rank memory allocation"]
         self.stop_thermo_strings = ["Loop time"]
         self.data_dict = {}
-        self.headers = []
+        self.keywords = []
         self.output_before_first_run = ""
         self.partial_logs = []
         if hasattr(ifile, "read"):
@@ -19,7 +19,7 @@ class File:
 
     def read_file_to_dict(self):
         contents = self.logfile.readlines()
-        header_flag = False
+        keyword_flag = False
         before_first_run_flag = True
         i = 0
         while i < len(contents):
@@ -27,8 +27,8 @@ class File:
             if before_first_run_flag:
                 self.output_before_first_run += line
 
-            if header_flag:
-                headers = line.split()
+            if keyword_flag:
+                keywords = line.split()
                 tmpString = ""
                 # Check wheter any of the thermo stop strigs are in the present line
                 while not sum([string in line for string in self.stop_thermo_strings]) >= 1:
@@ -41,29 +41,29 @@ class File:
                         break
                 partialLogContents = pd.read_table(StringIO(tmpString), sep=r'\s+')
 
-                if (self.headers != headers):
-                    # If the log header changes, i.e. the thermo data to be outputted chages,
+                if (self.keywords != keywords):
+                    # If the log keyword changes, i.e. the thermo data to be outputted chages,
                     # we flush all prevous log data. This is a limitation of this implementation. 
-                    self.flush_dict_and_set_new_header(headers)
+                    self.flush_dict_and_set_new_keyword(keywords)
 
                 self.partial_dict = {}
-                for name in headers:
+                for name in keywords:
                     self.data_dict[name] = np.append(self.data_dict[name],partialLogContents[name])
                     self.partial_dict[name] = np.append(np.asarray([]), partialLogContents[name])
                 self.partial_logs.append(self.partial_dict)
-                header_flag = False
+                keyword_flag = False
 
             # Check whether the string matches any of the start string identifiers
             if sum([line.startswith(string) for string in self.start_thermo_strings]) >= 1:
-                header_flag = True
+                keyword_flag = True
                 before_first_run_flag = False
             i += 1
 
-    def flush_dict_and_set_new_header(self, headers):
+    def flush_dict_and_set_new_keyword(self, keywords):
         self.data_dict = {}
-        for entry in headers:
+        for entry in keywords:
             self.data_dict[entry] = np.asarray([])
-        self.headers = headers
+        self.keywords = keywords
 
     def get(self, entry_name, run_num=-1):
         if run_num == -1:
@@ -83,7 +83,7 @@ class File:
 
     def get_keywords(self, run_num=-1):
         if run_num == -1:
-            return sorted(self.headers)
+            return sorted(self.keywords)
         else:
             if len(self.partial_logs) > run_num: 
                 return sorted(list(self.partial_logs[run_num].keys()))

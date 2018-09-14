@@ -23,18 +23,18 @@ class TestFileWithLogFile(TestCase):
         step = self.log.get("Step", 2)
         self.assertEqual(len(step), 5)
 
-    def test_headers_partial_logs(self):
-        headers0 = ["Step", "Time", "Temp", "Pxx", "Pyy", "CPULeft"]
-        for header in headers0:
+    def test_keyword_partial_logs(self):
+        keyword0 = ["Step", "Time", "Temp", "Pxx", "Pyy", "CPULeft"]
+        for header in keyword0:
             self.assertIsNotNone(self.log.get(header, 0))
         self.assertIsNone(self.log.get("Press", 0))
 
-        headers1 = ["Step", "Time", "Temp", "Pxx", "Pyy", "Press", "CPULeft"]
-        for header in headers1:
+        keyword1 = ["Step", "Time", "Temp", "Pxx", "Pyy", "Press", "CPULeft"]
+        for header in keyword1:
             self.assertIsNotNone(self.log.get(header, 1))
 
-        headers2 = ["Step", "Temp", "Pxx", "Pyy", "CPULeft"]
-        for header in headers2:
+        keyword2 = ["Step", "Temp", "Pxx", "Pyy", "CPULeft"]
+        for header in keyword2:
             self.assertIsNotNone(self.log.get(header, 2))
         self.assertIsNone(self.log.get("Press", 2))
         self.assertIsNone(self.log.get("Time", 2))
