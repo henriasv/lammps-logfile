@@ -25,17 +25,17 @@ class TestFileWithLogFile(TestCase):
 
     def test_keyword_partial_logs(self):
         keyword0 = ["Step", "Time", "Temp", "Pxx", "Pyy", "CPULeft"]
-        for header in keyword0:
-            self.assertIsNotNone(self.log.get(header, 0))
+        for keyword in keyword0:
+            self.assertIsNotNone(self.log.get(keyword, 0))
         self.assertIsNone(self.log.get("Press", 0))
 
         keyword1 = ["Step", "Time", "Temp", "Pxx", "Pyy", "Press", "CPULeft"]
-        for header in keyword1:
-            self.assertIsNotNone(self.log.get(header, 1))
+        for keyword in keyword1:
+            self.assertIsNotNone(self.log.get(keyword, 1))
 
         keyword2 = ["Step", "Temp", "Pxx", "Pyy", "CPULeft"]
-        for header in keyword2:
-            self.assertIsNotNone(self.log.get(header, 2))
+        for keyword in keyword2:
+            self.assertIsNotNone(self.log.get(keyword, 2))
         self.assertIsNone(self.log.get("Press", 2))
         self.assertIsNone(self.log.get("Time", 2))
 
