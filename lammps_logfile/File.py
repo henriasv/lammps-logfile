@@ -65,7 +65,6 @@ class File:
             self.data_dict[entry] = np.asarray([])
         self.headers = headers
 
-
     def get(self, entry_name, run_num=-1):
         if run_num == -1:
             if entry_name in self.data_dict.keys():
@@ -81,6 +80,16 @@ class File:
                     return None
             else:
                 return None
+
+    def get_keywords(self, run_num=-1):
+        if run_num == -1:
+            return sorted(self.headers)
+        else:
+            if len(self.partial_logs) > run_num: 
+                return sorted(list(self.partial_logs[run_num].keys()))
+            else:
+                return None
+
 
     def get_num_partial_logs(self):
         return len(self.partial_logs)

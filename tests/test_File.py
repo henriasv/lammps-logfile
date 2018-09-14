@@ -43,3 +43,9 @@ class TestFileWithLogFile(TestCase):
         np.testing.assert_equal(self.log.get("Step", 0), np.arange(0,5001, 100))
         np.testing.assert_equal(self.log.get("Step", 1), np.arange(5000,10001, 100))
         np.testing.assert_equal(self.log.get("Step", 2), np.arange(10000,10401, 100))
+
+    def test_get_keywords(self):
+        self.assertListEqual(self.log.get_keywords(), sorted(["Step", "Temp", "Pxx", "Pyy", "CPULeft"]))
+        self.assertListEqual(self.log.get_keywords(run_num=0), sorted(["Step", "Time", "Temp", "Pxx", "Pyy", "CPULeft"]))
+        self.assertListEqual(self.log.get_keywords(run_num=1), sorted(["Step", "Time", "Temp", "Pxx", "Pyy", "Press", "CPULeft"]))
+        self.assertListEqual(self.log.get_keywords(run_num=2), sorted(["Step", "Temp", "Pxx", "Pyy", "CPULeft"]))
