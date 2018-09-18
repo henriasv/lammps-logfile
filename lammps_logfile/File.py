@@ -90,6 +90,15 @@ class File:
             else:
                 return None
 
+    def to_exdir_group(self, name, exdirfile):
+        group = exdirfile.require_group(name)
+        for i, log in enumerate(self.partial_logs):
+            subgroup = group.require_group(str(i))
+            for key, value in log.items():
+                key = key.replace("/", ".")
+                subgroup.create_dataset(key, data=value)
+
+
 
     def get_num_partial_logs(self):
         return len(self.partial_logs)
