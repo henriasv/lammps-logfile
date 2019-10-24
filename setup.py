@@ -12,4 +12,9 @@ setup(name='lammps-logfile',
       test_suite='nose.collector',
       tests_require=['nose'],
       install_requires=['pandas', 'numpy'],
+      entry_points={
+        'console_scripts': [
+            'lammps_logplotter=lammps_logfile.cmd_interface:run'
+        ]
+      },
       zip_safe=False)
