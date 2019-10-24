@@ -11,7 +11,7 @@ setup(name='lammps-logfile',
       packages=setuptools.find_packages(),
       test_suite='nose.collector',
       tests_require=['nose'],
-      install_requires=['pandas', 'numpy'],
+      install_requires=['pandas', 'numpy', 'matplotlib'],
       entry_points={
         'console_scripts': [
             'lammps_logplotter=lammps_logfile.cmd_interface:run'
