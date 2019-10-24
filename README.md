@@ -1,3 +1,4 @@
+![](https://github.com/henriasv/lammps-logfile/workflows/Install%20and%20tests/badge.svg)
 # LAMMPS logfile reader
 Tool to read a logfile produced by [LAMMPS](https://lammps.sandia.gov) into a simple python data structure with a `get()`-function providing the log data. 
 
