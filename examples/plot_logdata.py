@@ -5,6 +5,8 @@ import lammps_logfile
 
 log = lammps_logfile.File(os.path.join(os.path.dirname(__file__), "logfiles", "crack_log.lammps"))
 
+print("Log keywords: ", log.get_keywords())
+
 x = log.get("Time")
 y = log.get("Pyy")
 
