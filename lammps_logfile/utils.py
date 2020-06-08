@@ -49,7 +49,10 @@ def get_matlab_color(i):
     -------------
     :param i: Index. Cycles with a period of 7, so calling with 1 returns the same color as calling with 8. 
     :type i: int 
-    
+
+    :returns: color as 3-vector 
+
+    """
     colors = np.asarray([ [0, 0.447000000000000, 0.741000000000000],
                           [0.850000000000000, 0.325000000000000, 0.098000000000000],
                           [0.929000000000000, 0.694000000000000, 0.125000000000000],
