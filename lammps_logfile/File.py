@@ -3,6 +3,14 @@ import pandas as pd
 from io import BytesIO, StringIO
 
 class File:
+    """Class for handling lammps log files.
+
+    Parameters
+    ----------------------
+    :param ifile: path to lammps log file 
+    :type ifile: string or file  
+
+    """
     def __init__(self, ifile):
         # Identifiers for places in the log file
         self.start_thermo_strings = ["Memory usage per processor", "Per MPI rank memory allocation"]
@@ -66,6 +74,18 @@ class File:
         self.keywords = keywords
 
     def get(self, entry_name, run_num=-1):
+        """Get time-series from log file by name.
+
+        Paramerers
+        --------------------
+        :param entry_name: Name of the entry, for example "Temp"
+        :type entry_name: str
+        :param run_num: Lammps simulations commonly involve several run-commands. Here you may choose what run you want the log data from. Default of :code:`-1` returns data from all runs concatenated 
+        :type run_num: int 
+        
+        If the rows in the log file changes between runs, the logs are being flushed. 
+        """
+
         if run_num == -1:
             if entry_name in self.data_dict.keys():
                 return self.data_dict[entry_name]
@@ -82,6 +102,7 @@ class File:
                 return None
 
     def get_keywords(self, run_num=-1):
+        """Return list of available data columns in the log file."""
         if run_num == -1:
             return sorted(self.keywords)
         else:
