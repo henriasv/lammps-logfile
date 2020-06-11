@@ -34,6 +34,9 @@ jobs:
         run: | 
           python3 -m pip install -r ./docs/requirements.txt
           python3 -m pip install .
+      - name: Build 
+          cd docs && make html
+          
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
