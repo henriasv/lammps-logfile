@@ -28,7 +28,7 @@ import matplotlib.pyplot as plt
 plt.plot(x, y)
 plt.show()
 ```
-This will give the concatenated log entries of all the runs where the thermo output didn't change with respect to the last run. I.e. if the entries in the `thermo_style` was not changed between runs it will contain the log data for all the timesteps. If the `thermo_style` *was* changed, `x` and `y` will contain the data from all the timesteps after the `thermo_style` was changed for the last time. 
+This will give the concatenated log entries of all the runs where the style of the thermo output didn't change with respect to the last run. I.e. if the entries in the `thermo_style` was not changed between runs it will contain the log data for all the timesteps. If the `thermo_style` *was* changed, `x` and `y` will contain the data from all the timesteps after the `thermo_style` was changed for the last time. 
  
 ## Multiple runs in the same log file
 If multiple run statements have been made in a simulation, these can be retrieved bu supplying the `run_num` keyword to the `get()`-function
