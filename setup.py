@@ -1,9 +1,14 @@
 import setuptools
 from setuptools import setup
 
+with open("README.md", "r") as fh:
+    long_description = fh.read()
+
 setup(name='lammps-logfile',
-      version='0.1',
+      version='1.0.1',
       description='Tool to read lammps log files into python data structure',
+      long_description=long_description,
+      long_description_content_type="text/markdown",
       url='http://github.com/henriasv/lammps-logfile',
       author='Henrik Andersen Sveinsson',
       author_email='henrik.sveinsson@me.com',

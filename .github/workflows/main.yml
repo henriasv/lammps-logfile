@@ -37,7 +37,7 @@ jobs:
           
       - name: Build 
         run: |
-          cd docs && make html
+          cd docs && make examples && make html
           
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3

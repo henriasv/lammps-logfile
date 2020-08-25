@@ -3,17 +3,16 @@ from lammps_logfile import running_mean
 import argparse
 import matplotlib.pyplot as plt
 
-def get_args():
+def get_parser():
     parser = argparse.ArgumentParser(description="Plot contents from lammps log files")
-    parser.add_argument("input_file", type=str)
-    parser.add_argument("-x", type=str, default="Time")
-    parser.add_argument("-y", type=str, nargs="+")
-    parser.add_argument("-a", "--running_average", type=int, default=1)
-    args = parser.parse_args()
-    return args
+    parser.add_argument("input_file", type=str, help="Lammps log file containing thermo output from lammps simulation.")
+    parser.add_argument("-x", type=str, default="Time", help="Data to plot on the first axis")
+    parser.add_argument("-y", type=str, nargs="+", help="Data to plot on the second axis. You can supply several names to get several plot lines in the same figure.")
+    parser.add_argument("-a", "--running_average", type=int, default=1, help="Optionally average over this many log entries with a running average. Some thermo properties fluctuate wildly, and often we are interested in te running average of properties like temperature and pressure.")
+    return parser
 
 def run():
-    args = get_args()
+    args = get_parser().parse_args()
     log = File(args.input_file)
     x = log.get(args.x)
     print(x)
