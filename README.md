@@ -3,7 +3,12 @@
 Tool to read a logfile produced by [LAMMPS](https://lammps.sandia.gov) into a simple python data structure with a `get()`-function providing the log data. 
 
 ## Installation
-Install with pip directly from github:
+From pypi (preferred/stable)
+```
+pip install lammps-logfile
+```
+
+Install using pip directly from github to get the latest (possibly unstable) version:
 ```
 pip install git+https://github.com/henriasv/lammps-logfile.git
 ```
