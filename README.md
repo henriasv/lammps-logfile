@@ -7,6 +7,7 @@ From pypi (preferred/stable)
 ```
 pip install lammps-logfile
 ```
+Depending on your python installation, you may have to use `pip3` instead of `pip`. This is usualy the case if you need to run `python3` rather than `python` to run python version 3. 
 
 Install using pip directly from github to get the latest (possibly unstable) version:
 ```
