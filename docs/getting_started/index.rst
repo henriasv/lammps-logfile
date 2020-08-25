@@ -7,7 +7,7 @@ Getting log data
 .. literalinclude:: python/getting_started.py
     :lines: 1-6
 
-Now the arrays :code:`x` and :code:`y` contain the log data corresponding to the :code:`Time` and :code:`Temp` columns in the log file. 
+Now the arrays :code:`t` and :code:`temp` contain the log data corresponding to the :code:`Time` and :code:`Temp` columns in the log file. 
 
 Plotting log data 
 -----------------
