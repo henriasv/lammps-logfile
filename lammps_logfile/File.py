@@ -14,7 +14,7 @@ class File:
     def __init__(self, ifile):
         # Identifiers for places in the log file
         self.start_thermo_strings = ["Memory usage per processor", "Per MPI rank memory allocation"]
-        self.stop_thermo_strings = ["Loop time"]
+        self.stop_thermo_strings = ["Loop time", "ERROR"]
         self.data_dict = {}
         self.keywords = []
         self.output_before_first_run = ""
