@@ -47,7 +47,7 @@ class File:
                         line = contents[i]
                     else:
                         break
-                partialLogContents = pd.read_table(StringIO(tmpString), sep=r'\s+')
+                partialLogContents = pd.read_table(StringIO(tmpString), sep=r'\s+', error_bad_lines=False)
 
                 if (self.keywords != keywords):
                     # If the log keyword changes, i.e. the thermo data to be outputted chages,
