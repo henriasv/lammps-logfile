@@ -16,12 +16,12 @@ def run():
     log = File(args.input_file)
     x = log.get(args.x)
     print(x)
+    if args.running_average >= 2:    
+            x = running_mean(x, args.running_average)
     for y in args.y:
         data = log.get(y)
         print(data)
-
-        if args.running_average >= 2:
-            x = running_mean(x, args.running_average)
+        if args.running_average >= 2:    
             data = running_mean(data, args.running_average)
 
         plt.plot(x, data, label=y)
