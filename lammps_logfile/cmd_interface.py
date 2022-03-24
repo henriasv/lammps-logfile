@@ -9,6 +9,7 @@ def get_parser():
     parser.add_argument("-x", type=str, default="Time", help="Data to plot on the first axis.")
     parser.add_argument("-y", type=str, nargs="+", help="Data to plot on the second axis. You can supply several names to get several plot lines in the same figure.")
     parser.add_argument("-a", "--running_average", type=int, default=1, help="Optionally average over this many log entries with a running average. Some thermo properties fluctuate wildly, and often we are interested in the running average of properties like temperature and pressure.")
+    parser.add_argument("-s", "--subplots", default=False, action='store_true', help="Show subplot panels for different graphs.")
     return parser
 
 def run():
@@ -16,15 +17,30 @@ def run():
     log = File(args.input_file)
     x = log.get(args.x)
     print(x)
-    for y in args.y:
-        data = log.get(y)
-        print(data)
+    if args.subplots:
+        fig, ax = plt.subplots(len(args.y), sharex=True, squeeze=False)
+        for i, y in enumerate(args.y):
+            data = log.get(y)
+            print(data)
 
-        if args.running_average >= 2:
-            x = running_mean(x, args.running_average)
-            data = running_mean(data, args.running_average)
+            if args.running_average >= 2:
+                x = running_mean(x, args.running_average)
+                data = running_mean(data, args.running_average)
 
-        plt.plot(x, data, label=y)
-    plt.legend()
+            ax[i, 0].plot(x, data)
+            ax[i, 0].set_ylabel(y)
+        ax[-1, 0].set_xlabel(args.x)
+        plt.tight_layout()
+    else:
+        for y in args.y:
+            data = log.get(y)
+            print(data)
+
+            if args.running_average >= 2:
+                x = running_mean(x, args.running_average)
+                data = running_mean(data, args.running_average)
+
+            plt.plot(x, data, label=y)
+        plt.legend()
     plt.show()
     
