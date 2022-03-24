@@ -38,6 +38,7 @@ def run():
         log = File(args.input_file)
         x = log.get(args.x)
         #print(x)
+        plt.cla()
         for i, y in enumerate(args.y):
             data = log.get(y)
             #print(data)
@@ -52,7 +53,6 @@ def run():
                 ax[-1, 0].set_xlabel(args.x)
                 ax[i, 0].set_ylabel(y)
             else:
-                plt.cla()
                 plt.plot(x, data, label=y)
                 plt.legend()
         if args.progress:
