@@ -19,6 +19,7 @@ class File:
         self.keywords = []
         self.output_before_first_run = ""
         self.partial_logs = []
+        self.num_timesteps = []
         if hasattr(ifile, "read"):
             self.logfile = ifile
         else:
@@ -34,6 +35,11 @@ class File:
             line = contents[i]
             if before_first_run_flag:
                 self.output_before_first_run += line
+
+            if line.startswith("run "):
+                splitted = line.split()
+                if splitted[1].isdigit():
+                    self.num_timesteps.append(int(splitted[1]))
 
             if keyword_flag:
                 keywords = line.split()
@@ -123,3 +129,8 @@ class File:
 
     def get_num_partial_logs(self):
         return len(self.partial_logs)
+
+
+    def get_num_timesteps(self):
+        """Return list of number of timesteps for each partial log."""
+        return self.num_timesteps
