@@ -10,7 +10,21 @@ def get_parser():
     parser.add_argument("-y", type=str, nargs="+", help="Data to plot on the second axis. You can supply several names to get several plot lines in the same figure.")
     parser.add_argument("-a", "--running_average", type=int, default=1, help="Optionally average over this many log entries with a running average. Some thermo properties fluctuate wildly, and often we are interested in the running average of properties like temperature and pressure.")
     parser.add_argument("-s", "--subplots", default=False, action='store_true', help="Show subplot panels for different graphs.")
+    parser.add_argument("-p", "--progress", default=False, action='store_true', help="Show progress of simulation. This requires that 'Step' is written to log file.")
     return parser
+
+
+def create_progress_string(log):
+    """Returning string with progress"""
+    try:
+        steps = log.get("Step")
+    except:
+        raise ValueError("'Step' is not written to logfile! Not able to monitor progress.")
+    rel_step = int(steps[-1] - steps[0])
+    num_steps = log.num_timesteps[-1]
+    return f"{rel_step}/{num_steps}"
+
+
 
 def run():
     args = get_parser().parse_args()
@@ -30,8 +44,8 @@ def run():
             ax[i, 0].plot(x, data)
             ax[i, 0].set_ylabel(y)
         ax[-1, 0].set_xlabel(args.x)
-        plt.tight_layout()
     else:
+        fig = plt.figure()
         for y in args.y:
             data = log.get(y)
             print(data)
@@ -42,5 +56,9 @@ def run():
 
             plt.plot(x, data, label=y)
         plt.legend()
+    if args.progress:
+        fig.suptitle(create_progress_string(log))
+    plt.tight_layout(rect=[0, 0.03, 1, 0.95])
     plt.show()
+
     
