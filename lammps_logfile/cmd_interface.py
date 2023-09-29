@@ -9,6 +9,7 @@ def get_parser():
     parser.add_argument("-x", type=str, default="Time", help="Data to plot on the first axis")
     parser.add_argument("-y", type=str, nargs="+", help="Data to plot on the second axis. You can supply several names to get several plot lines in the same figure.")
     parser.add_argument("-a", "--running_average", type=int, default=1, help="Optionally average over this many log entries with a running average. Some thermo properties fluctuate wildly, and often we are interested in te running average of properties like temperature and pressure.")
+    parser.add_argument("-o", type=str, dest='fout', default='', help='Save the figure to this file; the format must be supported by matplotlib.')
     return parser
 
 def run():
@@ -27,4 +28,6 @@ def run():
         plt.plot(x, data, label=y)
     plt.legend()
     plt.show()
-    
+    if args.fout != '':
+        plt.savefig(args.fout, dpi=300)
+
