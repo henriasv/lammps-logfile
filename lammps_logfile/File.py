@@ -1,6 +1,8 @@
+from io import BytesIO, StringIO
+
 import numpy as np
 import pandas as pd
-from io import BytesIO, StringIO
+
 
 class File:
     """Class for handling lammps log files.
@@ -14,7 +16,7 @@ class File:
     def __init__(self, ifile):
         # Identifiers for places in the log file
         self.start_thermo_strings = ["Memory usage per processor", "Per MPI rank memory allocation"]
-        self.stop_thermo_strings = ["Loop time", "ERROR"]
+        self.stop_thermo_strings = ["Loop time", "ERROR", "Fix halt condition"]
         self.data_dict = {}
         self.keywords = []
         self.output_before_first_run = ""
@@ -38,7 +40,7 @@ class File:
             if keyword_flag:
                 keywords = line.split()
                 tmpString = ""
-                # Check wheter any of the thermo stop strigs are in the present line
+                # Check wheter any of the thermo stop strings are in the present line
                 while not sum([string in line for string in self.stop_thermo_strings]) >= 1:
                     if "\n" in line:
                         tmpString+=line
@@ -119,6 +121,8 @@ class File:
                 key = key.replace("/", ".")
                 subgroup.create_dataset(key, data=value)
 
+    def to_dataframe(self, run_num=-1):
+        return pd.DataFrame(self.partial_logs[run_num])
 
 
     def get_num_partial_logs(self):
