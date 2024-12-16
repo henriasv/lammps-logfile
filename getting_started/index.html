@@ -1,0 +1,203 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Getting started &mdash; lammps-logfile  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="API Reference" href="../api_reference/index.html" />
+    <link rel="prev" title="Installation" href="../installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            lammps-logfile
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../about.html">About lammps-logfile</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Getting started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#getting-log-data">Getting log data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#plotting-log-data">Plotting log data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#running-average">Running average</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#what-data-are-available-in-the-log-file">What data are available in the log file?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#command-line-tool">Command line tool</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../api_reference/index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">lammps-logfile</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Getting started</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/getting_started/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="getting-started">
+<h1>Getting started<a class="headerlink" href="#getting-started" title="Link to this heading"></a></h1>
+<section id="getting-log-data">
+<h2>Getting log data<a class="headerlink" href="#getting-log-data" title="Link to this heading"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">lammps_logfile</span> <span class="kn">import</span> <span class="n">File</span>
+
+<span class="n">log</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="s2">&quot;../../../examples/logfiles/crack_log.lammps&quot;</span><span class="p">)</span>
+
+<span class="n">t</span> <span class="o">=</span> <span class="n">log</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Time&quot;</span><span class="p">)</span>
+<span class="n">temp</span> <span class="o">=</span> <span class="n">log</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Temp&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Now the arrays <code class="code docutils literal notranslate"><span class="pre">t</span></code> and <code class="code docutils literal notranslate"><span class="pre">temp</span></code> contain the log data corresponding to the <code class="code docutils literal notranslate"><span class="pre">Time</span></code> and <code class="code docutils literal notranslate"><span class="pre">Temp</span></code> columns in the log file.</p>
+</section>
+<section id="plotting-log-data">
+<h2>Plotting log data<a class="headerlink" href="#plotting-log-data" title="Link to this heading"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span> 
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">temp</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Time (ps)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Temperature (K)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="mi">215</span><span class="p">,</span> <span class="mi">225</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;time_temp.png&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To make the plot pop up in a window rather than being saved to a file, run <cite>plt.show()</cite> rather than <cite>plt.savefig(…)</cite>.</p>
+<figure class="align-default" id="id1">
+<a class="reference internal image-reference" href="../_images/time_temp.png"><img alt="Plot of temperature vs. time" src="../_images/time_temp.png" style="width: 640.0px; height: 480.0px;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Plot of temperature vs. time</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="running-average">
+<h2>Running average<a class="headerlink" href="#running-average" title="Link to this heading"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">lammps_logfile</span> <span class="kn">import</span> <span class="n">running_mean</span>
+
+<span class="n">temp_avg</span> <span class="o">=</span> <span class="n">running_mean</span><span class="p">(</span><span class="n">temp</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">temp_avg</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Time (ps)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Temperature (K)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="mi">215</span><span class="p">,</span> <span class="mi">225</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;time_temp_avg.png&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<figure class="align-default" id="id2">
+<a class="reference internal image-reference" href="../_images/time_temp_avg.png"><img alt="Plot of temperature vs. time" src="../_images/time_temp_avg.png" style="width: 640.0px; height: 480.0px;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Plot of temperature vs. time. The blue curve is the raw output, whereas in the orange curve the temperature has been smoothed over a 100 log entries wide averaging window.</span><a class="headerlink" href="#id2" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="what-data-are-available-in-the-log-file">
+<h2>What data are available in the log file?<a class="headerlink" href="#what-data-are-available-in-the-log-file" title="Link to this heading"></a></h2>
+<p>To inspect what columns are available, you can run the <cite>get_keywords</cite>-method on the <cite>File</cite> object:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">log</span><span class="o">.</span><span class="n">get_keywords</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>This command yields an output like the one below, which shows what columns we may <code class="code docutils literal notranslate"><span class="pre">get</span></code> from the <code class="code docutils literal notranslate"><span class="pre">File</span></code> object:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="s1">&#39;Density&#39;</span><span class="p">,</span> <span class="s1">&#39;E_angle&#39;</span><span class="p">,</span> <span class="s1">&#39;E_bond&#39;</span><span class="p">,</span> <span class="s1">&#39;E_coul&#39;</span><span class="p">,</span> <span class="s1">&#39;E_dihed&#39;</span><span class="p">,</span> <span class="s1">&#39;E_impro&#39;</span><span class="p">,</span> <span class="s1">&#39;E_long&#39;</span><span class="p">,</span> <span class="s1">&#39;E_vdwl&#39;</span><span class="p">,</span> <span class="s1">&#39;KinEng&#39;</span><span class="p">,</span> <span class="s1">&#39;Lx&#39;</span><span class="p">,</span> <span class="s1">&#39;Ly&#39;</span><span class="p">,</span> <span class="s1">&#39;Lz&#39;</span><span class="p">,</span> <span class="s1">&#39;PotEng&#39;</span><span class="p">,</span> <span class="s1">&#39;Press&#39;</span><span class="p">,</span> <span class="s1">&#39;Pxx&#39;</span><span class="p">,</span> <span class="s1">&#39;Pxy&#39;</span><span class="p">,</span> <span class="s1">&#39;Pxz&#39;</span><span class="p">,</span> <span class="s1">&#39;Pyy&#39;</span><span class="p">,</span> <span class="s1">&#39;Pyz&#39;</span><span class="p">,</span> <span class="s1">&#39;Pzz&#39;</span><span class="p">,</span> <span class="s1">&#39;Step&#39;</span><span class="p">,</span> <span class="s1">&#39;Temp&#39;</span><span class="p">,</span> <span class="s1">&#39;Time&#39;</span><span class="p">,</span> <span class="s1">&#39;TotEng&#39;</span><span class="p">,</span> <span class="s1">&#39;methaneM&#39;</span><span class="p">,</span> <span class="s1">&#39;waterMsd&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</section>
+<section id="command-line-tool">
+<h2>Command line tool<a class="headerlink" href="#command-line-tool" title="Link to this heading"></a></h2>
+<p>The following is the help message from the command line tool <cite>lammps_logplotter</cite> that comes with lammps-logplotter. This tool is meant to quicky inspect lammps log files without having to write a python script.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>usage:<span class="w"> </span>lammps_logplotter<span class="w"> </span><span class="o">[</span>-h<span class="o">]</span><span class="w"> </span><span class="o">[</span>-x<span class="w"> </span>X<span class="o">]</span><span class="w"> </span><span class="o">[</span>-y<span class="w"> </span>Y<span class="w"> </span><span class="o">[</span>Y<span class="w"> </span>...<span class="o">]]</span><span class="w"> </span><span class="o">[</span>-a<span class="w"> </span>RUNNING_AVERAGE<span class="o">]</span><span class="w"> </span>input_file
+
+Plot<span class="w"> </span>contents<span class="w"> </span>from<span class="w"> </span>lammps<span class="w"> </span>log<span class="w"> </span>files
+
+positional<span class="w"> </span>arguments:
+input_file<span class="w">            </span>Lammps<span class="w"> </span>log<span class="w"> </span>file<span class="w"> </span>containing<span class="w"> </span>thermo<span class="w"> </span>output<span class="w"> </span>from<span class="w"> </span>lammps<span class="w"> </span>simulation.
+
+optional<span class="w"> </span>arguments:
+-h,<span class="w"> </span>--help<span class="w">            </span>show<span class="w"> </span>this<span class="w"> </span><span class="nb">help</span><span class="w"> </span>message<span class="w"> </span>and<span class="w"> </span><span class="nb">exit</span>
+-x<span class="w"> </span>X<span class="w">                  </span>Data<span class="w"> </span>to<span class="w"> </span>plot<span class="w"> </span>on<span class="w"> </span>the<span class="w"> </span>first<span class="w"> </span>axis
+-y<span class="w"> </span>Y<span class="w"> </span><span class="o">[</span>Y<span class="w"> </span>...<span class="o">]</span><span class="w">          </span>Data<span class="w"> </span>to<span class="w"> </span>plot<span class="w"> </span>on<span class="w"> </span>the<span class="w"> </span>second<span class="w"> </span>axis.<span class="w"> </span>You<span class="w"> </span>can<span class="w"> </span>supply<span class="w"> </span>several<span class="w"> </span>names<span class="w"> </span>to<span class="w"> </span>get<span class="w"> </span>several<span class="w"> </span>plot<span class="w"> </span>lines<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>same<span class="w"> </span>figure.
+-a<span class="w"> </span>RUNNING_AVERAGE,<span class="w"> </span>--running_average<span class="w"> </span>RUNNING_AVERAGE
+<span class="w">                        </span>Optionally<span class="w"> </span>average<span class="w"> </span>over<span class="w"> </span>this<span class="w"> </span>many<span class="w"> </span>log<span class="w"> </span>entries<span class="w"> </span>with<span class="w"> </span>a<span class="w"> </span>running<span class="w"> </span>average.<span class="w"> </span>Some<span class="w"> </span>thermo<span class="w"> </span>properties<span class="w"> </span>fluctuate<span class="w"> </span>wildly,<span class="w"> </span>and<span class="w"> </span>often<span class="w"> </span>we<span class="w"> </span>are<span class="w"> </span>interested<span class="w"> </span><span class="k">in</span><span class="w"> </span>te
+<span class="w">                        </span>running<span class="w"> </span>average<span class="w"> </span>of<span class="w"> </span>properties<span class="w"> </span>like<span class="w"> </span>temperature<span class="w"> </span>and<span class="w"> </span>pressure.
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../installation.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../api_reference/index.html" class="btn btn-neutral float-right" title="API Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2020, Henrik Andersen Sveinsson.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
