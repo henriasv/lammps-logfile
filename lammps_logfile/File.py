@@ -127,3 +127,8 @@ class File:
 
     def get_num_partial_logs(self):
         return len(self.partial_logs)
+
+    @property
+    def names(self):
+        """Exposes the keywords returned by get_keywords."""
+        return self.get_keywords()
