@@ -30,7 +30,7 @@ author = 'Henrik Andersen Sveinsson'
 # ones.
 extensions = [  "sphinx.ext.autodoc",
                 "sphinx.ext.doctest", 
-                "recommonmark",
+                "myst_parser",
                 "sphinxarg.ext"]
 add_module_names = False 
 

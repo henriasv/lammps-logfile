@@ -1,27 +1,34 @@
-from lammps_logfile import File
+import lammps_logfile
+import matplotlib.pyplot as plt
 
-log = File("../../../examples/logfiles/crack_log.lammps")
+# Read the log file using the new read_log function
+data = lammps_logfile.read_log("../../../examples/logfiles/crack_log.lammps")
 
-t = log.get("Time")
-temp = log.get("Temp")
+# The data is returned as a pandas DataFrame
+# We can access columns directly by name
+t = data["Time"]
+temp = data["Temp"]
 
-import matplotlib.pyplot as plt 
-
+plt.figure()
 plt.plot(t, temp)
 plt.xlabel("Time (ps)")
 plt.ylabel("Temperature (K)")
 plt.ylim([215, 225])
 plt.savefig("time_temp.png")
 
-from lammps_logfile import running_mean
+# Calculate running average using pandas rolling window
+# Since pandas DataFrame makes this easy, we don't strictly need a helper,
+# but we can show how to do it with pandas
+temp_avg = temp.rolling(window=100).mean()
 
-temp_avg = running_mean(temp, 100)
-
-plt.plot(t, temp_avg)
+plt.figure()
+plt.plot(t, temp, label='Raw')
+plt.plot(t, temp_avg, label='Average')
 plt.xlabel("Time (ps)")
 plt.ylabel("Temperature (K)")
 plt.ylim([215, 225])
+plt.legend()
 plt.savefig("time_temp_avg.png")
 
-print(log.get_keywords())
-
+# Print available columns
+print(data.columns.tolist())
