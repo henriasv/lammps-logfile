@@ -9,6 +9,8 @@ sys.path.insert(0, os.path.abspath('..'))
 project = 'lammps-logfile'
 copyright = '2020, Henrik Andersen Sveinsson'
 author = 'Henrik Andersen Sveinsson'
+version = '1.1'
+release = '1.1'
 
 # -- General configuration ---------------------------------------------------
 
