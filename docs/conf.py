@@ -17,6 +17,8 @@ release = '1.1'
 extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.doctest",
+    "sphinx.ext.mathjax",
+    "sphinx.ext.intersphinx",
     "myst_parser",
     "sphinxarg.ext",
     "sphinx.ext.napoleon",
@@ -29,20 +31,23 @@ add_module_names = False
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
+# -- Intersphinx Configuration -----------------------------------------------
+
+intersphinx_mapping = {
+    'python': ('https://docs.python.org/3', None),
+    'numpy': ('https://numpy.org/doc/stable/', None),
+    'pandas': ('https://pandas.pydata.org/pandas-docs/stable/', None),
+    'matplotlib': ('https://matplotlib.org/stable/', None),
+}
+
 # -- Options for HTML output -------------------------------------------------
 
-html_theme = 'pydata_sphinx_theme'
+html_theme = 'furo'
 
 html_theme_options = {
-    "icon_links": [
-        {
-            "name": "GitHub",
-            "url": "https://github.com/henriasv/lammps-logfile",
-            "icon": "fa-brands fa-github",
-        },
-    ],
-    "show_toc_level": 2,
-    "navbar_align": "left",  # Adjust navbar alignment
+    "source_repository": "https://github.com/henriasv/lammps-logfile",
+    "source_branch": "master",
+    "source_directory": "docs/",
 }
 
 # -- Sphinx Gallery Configuration --------------------------------------------

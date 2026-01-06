@@ -18,11 +18,12 @@ setup(name='lammps-logfile',
       extras_require={
           'docs': [
               'sphinx',
-              'pydata-sphinx-theme',
+              'furo',
               'sphinx-gallery',
               'myst-parser',
               'sphinx-copybutton',
               'sphinx-design',
+              'sphinx-argparse',
           ]
       },
       entry_points={
