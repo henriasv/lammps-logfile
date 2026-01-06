@@ -1,0 +1,16 @@
+cff-version: 1.2.0
+message: "This software can be cited as below."
+authors:
+- family-names: "Sveinsson"
+  given-names: "Henrik Andersen"
+title: "lammps-logfile"
+version: 1.0.2
+date-released: 2020-01-01
+url: "https://github.com/henriasv/lammps-logfile"
+abstract: "A Python package for reading LAMMPS log files directly into pandas DataFrames."
+keywords:
+  - lammps
+  - molecular dynamics
+  - python
+  - pandas
+license: GPL-3.0

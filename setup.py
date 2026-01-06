@@ -15,6 +15,15 @@ setup(name='lammps-logfile',
       license='GNU GPL v3.0',
       packages=setuptools.find_packages(),
       install_requires=['pandas', 'numpy', 'matplotlib'],
+      extras_require={
+          'docs': [
+              'sphinx',
+              'pydata-sphinx-theme',
+              'sphinx-gallery',
+              'myst-parser',
+              'sphinx-copybutton',
+          ]
+      },
       entry_points={
         'console_scripts': [
             'lammps_logplotter=lammps_logfile.cmd_interface:run'
