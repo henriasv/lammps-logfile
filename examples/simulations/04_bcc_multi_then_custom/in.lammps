@@ -1,0 +1,63 @@
+# BCC solid (LJ) switching thermo output styles
+# - BCC initial structure
+# - thermo_style multi AND non-multi (custom) within the same script
+# - multiple run segments
+# - custom thermo output includes user-defined variable
+
+clear
+units           lj
+atom_style      atomic
+boundary        p p p
+
+shell           mkdir -p out
+
+variable        a equal 1.05
+lattice         bcc ${a}
+region          box block 0 10 0 10 0 10
+create_box      1 box
+create_atoms    1 box
+
+mass            1 1.0
+pair_style      lj/cut 2.5
+pair_coeff      1 1 1.0 1.0 2.5
+
+neighbor        0.3 bin
+neigh_modify    delay 0 every 1 check yes
+
+velocity        all create 0.7 11223 mom yes rot yes dist gaussian
+timestep        0.005
+
+# Segment 0: multi style
+thermo_style    multi
+thermo          100
+run             0
+
+fix             1 all nvt temp 0.7 0.7 1.0
+run             1500
+unfix           1
+
+# Segment 1: switch to custom thermo (not multi)
+variable        rho equal density
+thermo_style    custom step temp pe etotal press lx ly lz vol v_rho
+thermo_modify   format float %14.6g
+thermo          50
+
+fix             2 all nvt temp 0.7 1.0 1.0
+run             1800
+unfix           2
+
+# Segment 2: switch back to multi
+thermo_style    multi
+thermo          200
+
+fix             3 all nve
+run             600
+unfix           3
+
+dump            1 all custom 300 out/traj.lammpstrj id type x y z vx vy vz
+run             300
+undump          1
+
+write_data      out/final.data
+
+

@@ -1,0 +1,57 @@
+# BCC solid (LJ) with custom thermo output
+# - BCC initial structure
+# - custom thermo_style (NOT multi)
+# - multiple run segments
+# - includes user-defined variable in thermo output
+
+clear
+units           lj
+atom_style      atomic
+boundary        p p p
+
+shell           mkdir -p out
+
+variable        a equal 1.05
+lattice         bcc ${a}
+region          box block 0 10 0 10 0 10
+create_box      1 box
+create_atoms    1 box
+
+mass            1 1.0
+pair_style      lj/cut 2.5
+pair_coeff      1 1 1.0 1.0 2.5
+
+neighbor        0.3 bin
+neigh_modify    delay 0 every 1 check yes
+
+velocity        all create 0.8 24680 mom yes rot yes dist gaussian
+timestep        0.005
+
+# Custom computes/variables to show up in thermo
+compute         msd_all all msd
+variable        msd equal c_msd_all[4]
+variable        rho equal density
+
+thermo_style    custom step temp pe ke etotal press pxx pyy pzz vol v_rho v_msd
+thermo_modify   format float %14.6g
+thermo          25
+
+run             0
+
+# Run segment 1: NVT at T=0.8
+fix             1 all nvt temp 0.8 0.8 1.0
+run             1000
+unfix           1
+
+# Run segment 2: NVE (watch energy conservation)
+fix             2 all nve
+run             1200
+unfix           2
+
+dump            1 all custom 200 out/traj.lammpstrj id type x y z
+run             400
+undump          1
+
+write_data      out/final.data
+
+

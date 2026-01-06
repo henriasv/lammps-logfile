@@ -1,0 +1,55 @@
+# FCC solid (LJ) with a long run to generate a few-MB log
+# - FCC initial structure
+# - custom thermo output (NOT multi)
+# - multiple run segments (3 x 10000 steps)
+# - thermo every step -> larger log
+
+clear
+units           lj
+atom_style      atomic
+boundary        p p p
+
+shell           mkdir -p out
+
+variable        a equal 0.8442
+lattice         fcc ${a}
+region          box block 0 8 0 8 0 8
+create_box      1 box
+create_atoms    1 box
+
+mass            1 1.0
+pair_style      lj/cut 2.5
+pair_coeff      1 1 1.0 1.0 2.5
+
+neighbor        0.3 bin
+neigh_modify    delay 0 every 1 check yes
+
+velocity        all create 1.0 13579 mom yes rot yes dist gaussian
+timestep        0.005
+
+# Add many columns to increase line length for a larger log file.
+variable        rho equal density
+thermo_style    custom step temp pe ke etotal press pxx pyy pzz lx ly lz vol v_rho
+thermo_modify   format float %14.6g
+thermo          1
+
+run             0
+
+# Run segment 1
+fix             1 all nvt temp 1.0 1.0 1.0
+run             10000
+unfix           1
+
+# Run segment 2 (change target T slightly)
+fix             2 all nvt temp 1.0 0.9 1.0
+run             10000
+unfix           2
+
+# Run segment 3 (hold)
+fix             3 all nvt temp 0.9 0.9 1.0
+run             10000
+unfix           3
+
+write_data      out/final.data
+
+

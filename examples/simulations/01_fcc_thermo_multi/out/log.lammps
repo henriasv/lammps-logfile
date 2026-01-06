@@ -1,0 +1,299 @@
+LAMMPS (29 Aug 2024 - Update 2)
+# FCC solid (LJ) with thermo_style multi
+# - FCC initial structure
+# - thermo_style multi (no custom thermo here)
+# - multiple run segments in the same script
+
+clear
+units           lj
+atom_style      atomic
+boundary        p p p
+
+shell           mkdir -p out
+
+variable        a equal 0.8442
+lattice         fcc ${a}
+lattice         fcc 0.8442
+Lattice spacing in x,y,z = 1.6795962 1.6795962 1.6795962
+region          box block 0 10 0 10 0 10
+create_box      1 box
+Created orthogonal box = (0 0 0) to (16.795962 16.795962 16.795962)
+  1 by 1 by 1 MPI processor grid
+create_atoms    1 box
+Created 4000 atoms
+  using lattice units in orthogonal box = (0 0 0) to (16.795962 16.795962 16.795962)
+  create_atoms CPU = 0.000 seconds
+
+mass            1 1.0
+pair_style      lj/cut 2.5
+pair_coeff      1 1 1.0 1.0 2.5
+
+neighbor        0.3 bin
+neigh_modify    delay 0 every 1 check yes
+
+velocity        all create 1.0 12345 mom yes rot yes dist gaussian
+timestep        0.005
+
+thermo_style    multi
+thermo          50
+
+# Run segment 0: just report initial state
+run             0
+WARNING: No fixes with time integration, atoms won't move (src/verlet.cpp:60)
+Generated 0 of 0 mixed pair_coeff terms from geometric mixing rule
+Neighbor list info ...
+  update: every = 1 steps, delay = 0 steps, check = yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 2.8
+  ghost atom cutoff = 2.8
+  binsize = 1.4, bins = 12 12 12
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair lj/cut, perpetual
+      attributes: half, newton on
+      pair build: half/bin/atomonly/newton
+      stencil: half/bin/3d
+      bin: standard
+Per MPI rank memory allocation (min/avg/max) = 3.722 | 3.722 | 3.722 Mbytes
+------------ Step              0 ----- CPU =            0 (sec) -------------
+TotEng   =        -5.2737 KinEng   =         1.4996 Temp     =         1.0000 
+PotEng   =        -6.7734 E_bond   =         0.0000 E_angle  =         0.0000 
+E_dihed  =         0.0000 E_impro  =         0.0000 E_vdwl   =        -6.7734 
+E_coul   =         0.0000 E_long   =         0.0000 Press    =        -5.3913
+Loop time of 5.42e-07 on 1 procs for 0 steps with 4000 atoms
+
+0.0% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0          | 0          | 0          |   0.0 |  0.00
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0          | 0          | 0          |   0.0 |  0.00
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 5.42e-07   |            |       |100.00
+
+Nlocal:           4000 ave        4000 max        4000 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:           5841 ave        5841 max        5841 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:         156000 ave      156000 max      156000 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 156000
+Ave neighs/atom = 39
+Neighbor list builds = 0
+Dangerous builds = 0
+
+# Run segment 1: NVT at T=1.0
+fix             1 all nvt temp 1.0 1.0 1.0
+run             500
+Generated 0 of 0 mixed pair_coeff terms from geometric mixing rule
+Per MPI rank memory allocation (min/avg/max) = 3.722 | 3.722 | 3.722 Mbytes
+------------ Step              0 ----- CPU =            0 (sec) -------------
+TotEng   =        -5.2737 KinEng   =         1.4996 Temp     =         1.0000 
+PotEng   =        -6.7734 E_bond   =         0.0000 E_angle  =         0.0000 
+E_dihed  =         0.0000 E_impro  =         0.0000 E_vdwl   =        -6.7734 
+E_coul   =         0.0000 E_long   =         0.0000 Press    =        -5.3913
+------------ Step             50 ----- CPU =   0.08219688 (sec) -------------
+TotEng   =        -5.2666 KinEng   =         0.7549 Temp     =         0.5034 
+PotEng   =        -6.0215 E_bond   =         0.0000 E_angle  =         0.0000 
+E_dihed  =         0.0000 E_impro  =         0.0000 E_vdwl   =        -6.0215 
+E_coul   =         0.0000 E_long   =         0.0000 Press    =        -1.3550
+------------ Step            100 ----- CPU =    0.1643571 (sec) -------------
+TotEng   =        -5.2404 KinEng   =         0.8180 Temp     =         0.5455 
+PotEng   =        -6.0584 E_bond   =         0.0000 E_angle  =         0.0000 
+E_dihed  =         0.0000 E_impro  =         0.0000 E_vdwl   =        -6.0584 
+E_coul   =         0.0000 E_long   =         0.0000 Press    =        -1.5294
+------------ Step            150 ----- CPU =    0.2456616 (sec) -------------
+TotEng   =        -5.2064 KinEng   =         0.8415 Temp     =         0.5612 
+PotEng   =        -6.0479 E_bond   =         0.0000 E_angle  =         0.0000 
+E_dihed  =         0.0000 E_impro  =         0.0000 E_vdwl   =        -6.0479 
+E_coul   =         0.0000 E_long   =         0.0000 Press    =        -1.4580
+------------ Step            200 ----- CPU =    0.3271276 (sec) -------------
+TotEng   =        -5.1676 KinEng   =         0.8772 Temp     =         0.5849 
+PotEng   =        -6.0448 E_bond   =         0.0000 E_angle  =         0.0000 
+E_dihed  =         0.0000 E_impro  =         0.0000 E_vdwl   =        -6.0448 
+E_coul   =         0.0000 E_long   =         0.0000 Press    =        -1.4238
+------------ Step            250 ----- CPU =    0.4137739 (sec) -------------
+TotEng   =        -5.1251 KinEng   =         0.9018 Temp     =         0.6014 
+PotEng   =        -6.0269 E_bond   =         0.0000 E_angle  =         0.0000 
+E_dihed  =         0.0000 E_impro  =         0.0000 E_vdwl   =        -6.0269 
+E_coul   =         0.0000 E_long   =         0.0000 Press    =        -1.2919
+------------ Step            300 ----- CPU =    0.4955236 (sec) -------------
+TotEng   =        -5.0803 KinEng   =         0.9167 Temp     =         0.6113 
+PotEng   =        -5.9970 E_bond   =         0.0000 E_angle  =         0.0000 
+E_dihed  =         0.0000 E_impro  =         0.0000 E_vdwl   =        -5.9970 
+E_coul   =         0.0000 E_long   =         0.0000 Press    =        -1.1424
+------------ Step            350 ----- CPU =    0.5778789 (sec) -------------
+TotEng   =        -5.0335 KinEng   =         0.9526 Temp     =         0.6352 
+PotEng   =        -5.9861 E_bond   =         0.0000 E_angle  =         0.0000 
+E_dihed  =         0.0000 E_impro  =         0.0000 E_vdwl   =        -5.9861 
+E_coul   =         0.0000 E_long   =         0.0000 Press    =        -1.0842
+------------ Step            400 ----- CPU =    0.6646385 (sec) -------------
+TotEng   =        -4.9836 KinEng   =         0.9795 Temp     =         0.6531 
+PotEng   =        -5.9631 E_bond   =         0.0000 E_angle  =         0.0000 
+E_dihed  =         0.0000 E_impro  =         0.0000 E_vdwl   =        -5.9631 
+E_coul   =         0.0000 E_long   =         0.0000 Press    =        -0.9446
+------------ Step            450 ----- CPU =    0.7516904 (sec) -------------
+TotEng   =        -4.9332 KinEng   =         0.9923 Temp     =         0.6617 
+PotEng   =        -5.9255 E_bond   =         0.0000 E_angle  =         0.0000 
+E_dihed  =         0.0000 E_impro  =         0.0000 E_vdwl   =        -5.9255 
+E_coul   =         0.0000 E_long   =         0.0000 Press    =        -0.7256
+------------ Step            500 ----- CPU =    0.8396168 (sec) -------------
+TotEng   =        -4.8810 KinEng   =         1.0120 Temp     =         0.6748 
+PotEng   =        -5.8930 E_bond   =         0.0000 E_angle  =         0.0000 
+E_dihed  =         0.0000 E_impro  =         0.0000 E_vdwl   =        -5.8930 
+E_coul   =         0.0000 E_long   =         0.0000 Press    =        -0.5522
+Loop time of 0.839635 on 1 procs for 500 steps with 4000 atoms
+
+Performance: 257254.526 tau/day, 595.497 timesteps/s, 2.382 Matom-step/s
+99.2% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.55638    | 0.55638    | 0.55638    |   0.0 | 66.26
+Neigh   | 0.24578    | 0.24578    | 0.24578    |   0.0 | 29.27
+Comm    | 0.012346   | 0.012346   | 0.012346   |   0.0 |  1.47
+Output  | 0.00026987 | 0.00026987 | 0.00026987 |   0.0 |  0.03
+Modify  | 0.020686   | 0.020686   | 0.020686   |   0.0 |  2.46
+Other   |            | 0.004178   |            |       |  0.50
+
+Nlocal:           4000 ave        4000 max        4000 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:           5781 ave        5781 max        5781 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:         150124 ave      150124 max      150124 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 150124
+Ave neighs/atom = 37.531
+Neighbor list builds = 55
+Dangerous builds = 0
+unfix           1
+
+# Run segment 2: NVT cooling to T=0.5
+fix             2 all nvt temp 1.0 0.5 1.0
+run             800
+Generated 0 of 0 mixed pair_coeff terms from geometric mixing rule
+Per MPI rank memory allocation (min/avg/max) = 3.722 | 3.722 | 3.722 Mbytes
+------------ Step            500 ----- CPU =            0 (sec) -------------
+TotEng   =        -4.8810 KinEng   =         1.0120 Temp     =         0.6748 
+PotEng   =        -5.8930 E_bond   =         0.0000 E_angle  =         0.0000 
+E_dihed  =         0.0000 E_impro  =         0.0000 E_vdwl   =        -5.8930 
+E_coul   =         0.0000 E_long   =         0.0000 Press    =        -0.5522
+------------ Step            550 ----- CPU =   0.08378292 (sec) -------------
+TotEng   =        -4.8626 KinEng   =         1.0207 Temp     =         0.6807 
+PotEng   =        -5.8833 E_bond   =         0.0000 E_angle  =         0.0000 
+E_dihed  =         0.0000 E_impro  =         0.0000 E_vdwl   =        -5.8833 
+E_coul   =         0.0000 E_long   =         0.0000 Press    =        -0.4896
+------------ Step            600 ----- CPU =    0.1712221 (sec) -------------
+TotEng   =        -4.8350 KinEng   =         1.0443 Temp     =         0.6964 
+PotEng   =        -5.8794 E_bond   =         0.0000 E_angle  =         0.0000 
+E_dihed  =         0.0000 E_impro  =         0.0000 E_vdwl   =        -5.8794 
+E_coul   =         0.0000 E_long   =         0.0000 Press    =        -0.4433
+------------ Step            650 ----- CPU =     0.258602 (sec) -------------
+TotEng   =        -4.8061 KinEng   =         1.0469 Temp     =         0.6981 
+PotEng   =        -5.8531 E_bond   =         0.0000 E_angle  =         0.0000 
+E_dihed  =         0.0000 E_impro  =         0.0000 E_vdwl   =        -5.8531 
+E_coul   =         0.0000 E_long   =         0.0000 Press    =        -0.3080
+------------ Step            700 ----- CPU =    0.3459186 (sec) -------------
+TotEng   =        -4.7730 KinEng   =         1.0706 Temp     =         0.7139 
+PotEng   =        -5.8436 E_bond   =         0.0000 E_angle  =         0.0000 
+E_dihed  =         0.0000 E_impro  =         0.0000 E_vdwl   =        -5.8436 
+E_coul   =         0.0000 E_long   =         0.0000 Press    =        -0.2379
+------------ Step            750 ----- CPU =     0.430574 (sec) -------------
+TotEng   =        -4.7404 KinEng   =         1.0586 Temp     =         0.7059 
+PotEng   =        -5.7990 E_bond   =         0.0000 E_angle  =         0.0000 
+E_dihed  =         0.0000 E_impro  =         0.0000 E_vdwl   =        -5.7990 
+E_coul   =         0.0000 E_long   =         0.0000 Press    =        -0.0172
+------------ Step            800 ----- CPU =    0.5251303 (sec) -------------
+TotEng   =        -4.7083 KinEng   =         1.0822 Temp     =         0.7216 
+PotEng   =        -5.7905 E_bond   =         0.0000 E_angle  =         0.0000 
+E_dihed  =         0.0000 E_impro  =         0.0000 E_vdwl   =        -5.7905 
+E_coul   =         0.0000 E_long   =         0.0000 Press    =         0.0705
+------------ Step            850 ----- CPU =    0.6134245 (sec) -------------
+TotEng   =        -4.6788 KinEng   =         1.1032 Temp     =         0.7357 
+PotEng   =        -5.7820 E_bond   =         0.0000 E_angle  =         0.0000 
+E_dihed  =         0.0000 E_impro  =         0.0000 E_vdwl   =        -5.7820 
+E_coul   =         0.0000 E_long   =         0.0000 Press    =         0.1453
+------------ Step            900 ----- CPU =    0.7010945 (sec) -------------
+TotEng   =        -4.6524 KinEng   =         1.0929 Temp     =         0.7288 
+PotEng   =        -5.7453 E_bond   =         0.0000 E_angle  =         0.0000 
+E_dihed  =         0.0000 E_impro  =         0.0000 E_vdwl   =        -5.7453 
+E_coul   =         0.0000 E_long   =         0.0000 Press    =         0.3063
+------------ Step            950 ----- CPU =     0.788893 (sec) -------------
+TotEng   =        -4.6303 KinEng   =         1.1002 Temp     =         0.7337 
+PotEng   =        -5.7305 E_bond   =         0.0000 E_angle  =         0.0000 
+E_dihed  =         0.0000 E_impro  =         0.0000 E_vdwl   =        -5.7305 
+E_coul   =         0.0000 E_long   =         0.0000 Press    =         0.3958
+------------ Step           1000 ----- CPU =    0.8768107 (sec) -------------
+TotEng   =        -4.6165 KinEng   =         1.1126 Temp     =         0.7419 
+PotEng   =        -5.7290 E_bond   =         0.0000 E_angle  =         0.0000 
+E_dihed  =         0.0000 E_impro  =         0.0000 E_vdwl   =        -5.7290 
+E_coul   =         0.0000 E_long   =         0.0000 Press    =         0.4383
+------------ Step           1050 ----- CPU =    0.9638908 (sec) -------------
+TotEng   =        -4.6131 KinEng   =         1.0960 Temp     =         0.7309 
+PotEng   =        -5.7091 E_bond   =         0.0000 E_angle  =         0.0000 
+E_dihed  =         0.0000 E_impro  =         0.0000 E_vdwl   =        -5.7091 
+E_coul   =         0.0000 E_long   =         0.0000 Press    =         0.5291
+------------ Step           1100 ----- CPU =     1.051348 (sec) -------------
+TotEng   =        -4.6275 KinEng   =         1.1038 Temp     =         0.7360 
+PotEng   =        -5.7313 E_bond   =         0.0000 E_angle  =         0.0000 
+E_dihed  =         0.0000 E_impro  =         0.0000 E_vdwl   =        -5.7313 
+E_coul   =         0.0000 E_long   =         0.0000 Press    =         0.4205
+------------ Step           1150 ----- CPU =     1.139097 (sec) -------------
+TotEng   =        -4.6588 KinEng   =         1.0766 Temp     =         0.7179 
+PotEng   =        -5.7354 E_bond   =         0.0000 E_angle  =         0.0000 
+E_dihed  =         0.0000 E_impro  =         0.0000 E_vdwl   =        -5.7354 
+E_coul   =         0.0000 E_long   =         0.0000 Press    =         0.3865
+------------ Step           1200 ----- CPU =     1.226384 (sec) -------------
+TotEng   =        -4.6950 KinEng   =         1.0550 Temp     =         0.7035 
+PotEng   =        -5.7500 E_bond   =         0.0000 E_angle  =         0.0000 
+E_dihed  =         0.0000 E_impro  =         0.0000 E_vdwl   =        -5.7500 
+E_coul   =         0.0000 E_long   =         0.0000 Press    =         0.3314
+------------ Step           1250 ----- CPU =     1.314357 (sec) -------------
+TotEng   =        -4.7342 KinEng   =         1.0236 Temp     =         0.6826 
+PotEng   =        -5.7579 E_bond   =         0.0000 E_angle  =         0.0000 
+E_dihed  =         0.0000 E_impro  =         0.0000 E_vdwl   =        -5.7579 
+E_coul   =         0.0000 E_long   =         0.0000 Press    =         0.2602
+------------ Step           1300 ----- CPU =     1.397775 (sec) -------------
+TotEng   =        -4.7762 KinEng   =         0.9808 Temp     =         0.6541 
+PotEng   =        -5.7570 E_bond   =         0.0000 E_angle  =         0.0000 
+E_dihed  =         0.0000 E_impro  =         0.0000 E_vdwl   =        -5.7570 
+E_coul   =         0.0000 E_long   =         0.0000 Press    =         0.2427
+Loop time of 1.39779 on 1 procs for 800 steps with 4000 atoms
+
+Performance: 247246.718 tau/day, 572.330 timesteps/s, 2.289 Matom-step/s
+98.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.90226    | 0.90226    | 0.90226    |   0.0 | 64.55
+Neigh   | 0.4337     | 0.4337     | 0.4337     |   0.0 | 31.03
+Comm    | 0.020797   | 0.020797   | 0.020797   |   0.0 |  1.49
+Output  | 0.00039671 | 0.00039671 | 0.00039671 |   0.0 |  0.03
+Modify  | 0.033844   | 0.033844   | 0.033844   |   0.0 |  2.42
+Other   |            | 0.006796   |            |       |  0.49
+
+Nlocal:           4000 ave        4000 max        4000 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:           5635 ave        5635 max        5635 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:         149625 ave      149625 max      149625 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 149625
+Ave neighs/atom = 37.40625
+Neighbor list builds = 93
+Dangerous builds = 0
+unfix           2
+
+write_data      out/final.data
+System init for write_data ...
+Generated 0 of 0 mixed pair_coeff terms from geometric mixing rule
+
+
+Total wall time: 0:00:02
