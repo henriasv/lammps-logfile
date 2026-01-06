@@ -1,6 +1,6 @@
 ![](https://github.com/henriasv/lammps-logfile/workflows/Install%20and%20tests/badge.svg)
 # LAMMPS logfile reader
-Tool to read a logfile produced by [LAMMPS](https://lammps.sandia.gov) into a simple python data structure with a `get()`-function providing the log data. 
+Tool to read a logfile produced by [LAMMPS](https://lammps.sandia.gov) into a python data structure.
 
 ## Installation
 From pypi (preferred/stable)
@@ -20,9 +20,34 @@ cd lammps-logfile
 pip3 install .
 ```
 
-## Basic usage
+## Usage (Recommended)
+The recommended way to read log files is using the `read_log` function, which returns a pandas DataFrame containing all thermodynamic data from all runs in the log file.
 
+```python
+from lammps_logfile import read_log
+import matplotlib.pyplot as plt
+
+# Read the log file into a DataFrame
+# This example uses the 'crack_log.lammps' file found in 'examples/logfiles/'
+df = read_log("crack_log.lammps")
+
+# The DataFrame contains data from all runs, with a 'run_num' column distinguishing them
+print(df.head())
+
+# Plot Temperature vs Step
+plt.figure(figsize=(10, 6))
+plt.plot(df['Step'], df['Temp'])
+plt.xlabel('Step')
+plt.ylabel('Temperature')
+plt.show()
 ```
+
+![Example Plot](docs/readme_example.png)
+
+## Legacy Interface
+The `File` class interface is kept for backward compatibility but is considered legacy.
+
+```python
 import lammps_logfile
 
 log = lammps_logfile.File("path/to/logfile")
@@ -36,10 +61,10 @@ plt.show()
 ```
 This will give the concatenated log entries of all the runs where the style of the thermo output didn't change with respect to the last run. I.e. if the entries in the `thermo_style` was not changed between runs it will contain the log data for all the timesteps. If the `thermo_style` *was* changed, `x` and `y` will contain the data from all the timesteps after the `thermo_style` was changed for the last time. 
  
-## Multiple runs in the same log file
+### Multiple runs in the same log file (Legacy)
 If multiple run statements have been made in a simulation, these can be retrieved bu supplying the `run_num` keyword to the `get()`-function
 
-```
+```python
 import lammps_logfile
 
 log = lammps_logfile.File("path/to/logfile")

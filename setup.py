@@ -14,8 +14,6 @@ setup(name='lammps-logfile',
       author_email='henrik.sveinsson@me.com',
       license='GNU GPL v3.0',
       packages=setuptools.find_packages(),
-      test_suite='nose.collector',
-      tests_require=['nose'],
       install_requires=['pandas', 'numpy', 'matplotlib'],
       entry_points={
         'console_scripts': [
