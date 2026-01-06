@@ -51,9 +51,9 @@ The following benchmarks demonstrate the performance of `read_log` on various lo
 | Simulation                              |   Runs |   Steps |   Memory (MB) |   Time (s) |
 |:----------------------------------------|-------:|--------:|--------------:|-----------:|
 | 01_fcc_thermo_multi/out/log.lammps      |      3 |      29 |          0.10 |     0.02   |
-| 02_bcc_custom_thermo/out/log.lammps     |      4 |     108 |          0.15 |     0.02   |
-| 03_fcc_custom_longlog/out/log.lammps    |      4 |   30004 |         21.77 |     0.74   |
-| 04_bcc_multi_then_custom/out/log.lammps |      5 |      62 |          0.16 |     0.03   |
+| 02_bcc_custom_thermo/out/log.lammps     |      4 |     108 |          0.15 |     0.03   |
+| 03_fcc_custom_longlog/out/log.lammps    |      4 |   30004 |         21.77 |     0.37   |
+| 04_bcc_multi_then_custom/out/log.lammps |      5 |      62 |          0.17 |     0.04   |
 
 ## Legacy Interface
 The `File` class interface is kept for backward compatibility but is considered legacy.

@@ -87,9 +87,6 @@ def read_log(filename):
         DataFrame containing all thermo data from the log file.
     """
 
-    start_thermo_strings = ["Memory usage per processor", "Per MPI rank memory allocation"]
-    stop_thermo_strings = ["Loop time", "ERROR", "Fix halt condition"]
-
     if hasattr(filename, "read"):
         logfile = filename
         close_file = False
@@ -108,46 +105,58 @@ def read_log(filename):
     run_num = 0
     i = 0
 
-    while i < len(contents):
+    # Pre-calculate length to avoid repeated len() calls in while loop condition
+    n_lines = len(contents)
+
+    while i < n_lines:
         line = contents[i]
 
         if keyword_flag:
             block_lines = []
             # Capture the block until a stop string is found
-            while i < len(contents):
+            while i < n_lines:
                 line = contents[i]
-                if any(s in line for s in stop_thermo_strings):
+                # Optimization: Unroll any() for speed
+                if "Loop time" in line or "ERROR" in line or "Fix halt condition" in line:
                     break
                 block_lines.append(line)
                 i += 1
 
-            # Parse the captured block
-            tmp_string = "".join(block_lines)
-            if tmp_string.strip():
-                # Check for multi style (heuristic: Look for the separator line)
-                if "------------ Step" in tmp_string:
+            if block_lines:
+                # Check for multi style in the first few lines (optimization)
+                is_multi = False
+                for j in range(min(10, len(block_lines))):
+                     if block_lines[j].strip().startswith("------------ Step"):
+                         is_multi = True
+                         break
+
+                if is_multi:
                     df = _parse_multi_style(block_lines)
                     if not df.empty:
                         df['run_num'] = run_num
                         dfs.append(df)
                         run_num += 1
                 else:
-                    try:
-                        # pandas read_csv with whitespace separator
-                        df = pd.read_csv(StringIO(tmp_string), sep=r'\s+')
-                        if not df.empty:
-                            df['run_num'] = run_num
-                            dfs.append(df)
-                            run_num += 1
-                    except pd.errors.EmptyDataError:
-                        pass
+                    # Parse the captured block
+                    tmp_string = "".join(block_lines)
+                    if tmp_string.strip():
+                        try:
+                            # pandas read_csv with whitespace separator
+                            df = pd.read_csv(StringIO(tmp_string), sep=r'\s+')
+                            if not df.empty:
+                                df['run_num'] = run_num
+                                dfs.append(df)
+                                run_num += 1
+                        except pd.errors.EmptyDataError:
+                            pass
 
             keyword_flag = False
             # Don't increment i here, we want to process the stop line (though usually it just ends the block)
             continue
 
         # Check for start strings
-        if any(line.startswith(s) for s in start_thermo_strings):
+        # Optimization: Unroll any() for speed
+        if line.startswith("Memory usage per processor") or line.startswith("Per MPI rank memory allocation"):
             keyword_flag = True
 
         i += 1
