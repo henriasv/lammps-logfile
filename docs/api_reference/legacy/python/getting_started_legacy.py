@@ -1,6 +1,10 @@
 from lammps_logfile import File
+import os
 
-log = File("../../../examples/logfiles/crack_log.lammps")
+# We are in docs/api_reference/legacy/python
+# We need to go up to api_reference, then docs, then root, then examples/logfiles/crack_log.lammps
+# That is ../../../../examples/logfiles/crack_log.lammps
+log = File(os.path.join(os.path.dirname(__file__), "../../../../examples/logfiles/crack_log.lammps"))
 
 t = log.get("Time")
 temp = log.get("Temp")

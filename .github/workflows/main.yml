@@ -3,6 +3,9 @@ on:
   push:
     branches: 
       - master
+  pull_request:
+    branches:
+      - master
   
 jobs:
   deploy:
@@ -33,13 +36,14 @@ jobs:
       - name: Install dependencies
         run: | 
           python3 -m pip install -r ./docs/requirements.txt
-          python3 -m pip install .
+          python3 -m pip install .[docs]
           
       - name: Build 
         run: |
           cd docs && make examples && make html
           
       - name: Deploy
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}

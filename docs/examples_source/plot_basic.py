@@ -13,8 +13,6 @@ import os
 # In a real scenario, you would provide the path to your own log file.
 # The path is relative to the execution of this script.
 # We need to find the absolute path to the example file because sphinx-gallery runs in a different directory
-import os
-import lammps_logfile
 
 # Locate the examples directory relative to the repository root
 # This assumes the script is running from the docs/examples/ directory
@@ -48,10 +46,6 @@ if not os.path.exists(candidate_path):
     # Let's try to find the file from the current working directory
     # If we are running from 'docs', then examples is ../examples
     candidate_path = os.path.abspath(os.path.join(os.getcwd(), "../examples/logfiles/crack_log.lammps"))
-
-if not os.path.exists(candidate_path):
-    # Fallback for the specific sandbox environment structure
-    candidate_path = "/app/examples/logfiles/crack_log.lammps"
 
 log_path = candidate_path
 

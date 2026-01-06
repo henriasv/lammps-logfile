@@ -104,3 +104,4 @@ venv.bak/
 .mypy_cache/
 docs/examples/
 docs/_build/
+docs/sg_execution_times.rst

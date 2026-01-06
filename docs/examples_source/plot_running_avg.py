@@ -19,9 +19,6 @@ except NameError:
 
 candidate_path = os.path.abspath(os.path.join(script_dir, "../../examples/logfiles/crack_log.lammps"))
 
-if not os.path.exists(candidate_path):
-    candidate_path = "/app/examples/logfiles/crack_log.lammps"
-
 log_path = candidate_path
 
 # Read the log file
