@@ -6,11 +6,14 @@
 .. autofunction:: lammps_logfile.read_log
 ```
 
-## File (Legacy)
+## Legacy Interface
 
-```{eval-rst}
-.. autoclass:: lammps_logfile.File
-    :members:
+The following classes are maintained for backward compatibility. New users should prefer `read_log`.
+
+```{toctree}
+:maxdepth: 2
+
+legacy/index
 ```
 
 ## Utilities
@@ -20,16 +23,10 @@
     :members:
 ```
 
-## Command line interface
+## Command Line Interface
 
 ```{eval-rst}
 .. argparse::
     :ref: lammps_logfile.cmd_interface.get_parser
     :prog: lammps_logplotter
 ```
-
-## Indices and tables
-
-* {ref}`genindex`
-* {ref}`modindex`
-* {ref}`search`
