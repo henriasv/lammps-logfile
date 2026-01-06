@@ -22,6 +22,7 @@ setup(name='lammps-logfile',
               'sphinx-gallery',
               'myst-parser',
               'sphinx-copybutton',
+              'sphinx-design',
           ]
       },
       entry_points={
