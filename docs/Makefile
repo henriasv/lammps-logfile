@@ -17,9 +17,9 @@ help:
 .PHONY: examples
 examples:
 	# Run new getting started example
-	cd getting_started/python && python3 getting_started.py > output.txt && cd ../..
+	cd tutorials/python && python3 getting_started.py > output.txt && cd ../..
 	# Run legacy getting started example
-	cd api_reference/legacy/python && python3 getting_started_legacy.py > legacy_output.txt && cd ../../../..
+	cd reference/legacy/python && python3 getting_started_legacy.py > legacy_output.txt && cd ../../../..
 
 # Catch-all target: route all unknown targets to Sphinx using the new
 # "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).

@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setup(name='lammps-logfile',
-      version='1.0.2',
+      version='1.1',
       description='Tool to read lammps log files into python data structure',
       long_description=long_description,
       long_description_content_type="text/markdown",
@@ -18,11 +18,12 @@ setup(name='lammps-logfile',
       extras_require={
           'docs': [
               'sphinx',
-              'pydata-sphinx-theme',
+              'furo',
               'sphinx-gallery',
               'myst-parser',
               'sphinx-copybutton',
               'sphinx-design',
+              'sphinx-argparse',
           ]
       },
       entry_points={

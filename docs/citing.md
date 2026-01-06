@@ -1,20 +1,24 @@
-# Citing lammps-logfile
+# Citing this Software
 
-If you use `lammps-logfile` in your research, please cite it.
+If you use `lammps-logfile` in your research, please cite it using the following metadata.
 
 ## BibTeX
 
 ```bibtex
-@misc{lammps_logfile,
+@software{lammps_logfile,
   author = {Sveinsson, Henrik Andersen},
-  title = {lammps-logfile: A Python package for reading LAMMPS log files},
-  year = {2020},
-  publisher = {GitHub},
-  journal = {GitHub repository},
-  howpublished = {\url{https://github.com/henriasv/lammps-logfile}}
+  title = {lammps-logfile},
+  version = {1.1},
+  date = {2026-01-06},
+  url = {https://github.com/henriasv/lammps-logfile},
+  abstract = {A Python package for reading LAMMPS log files directly into pandas DataFrames.}
 }
 ```
 
-## Zenodo
+## Plain Text
 
-(Instructions for citing specific versions via Zenodo will be added here once a release is minted.)
+> Sveinsson, H. A. (2026). lammps-logfile (Version 1.1) [Computer software]. https://github.com/henriasv/lammps-logfile
+
+## Citation File Format (CFF)
+
+This repository contains a `CITATION.cff` file, which allows GitHub to automatically generate citation information. You can access it by clicking the "Cite this repository" button on the GitHub sidebar.

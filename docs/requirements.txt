@@ -1,4 +1,6 @@
 sphinx
-sphinx_rtd_theme
+furo
 myst-parser
-sphinx.argparse
+sphinx-argparse
+sphinx-copybutton
+sphinx-design
