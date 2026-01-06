@@ -1,4 +1,71 @@
 from io import StringIO
+import pandas as pd
+
+def _parse_multi_style(lines):
+    """
+    Parses a block of lines in LAMMPS 'thermo_style multi' format.
+    Returns a pandas DataFrame.
+    """
+    data = []
+    current_step = {}
+
+    for line in lines:
+        line = line.strip()
+        if not line:
+            continue
+
+        if line.startswith("------------ Step"):
+            # If we have collected data for a step (and it's not empty), append it
+            if current_step:
+                data.append(current_step)
+            current_step = {}
+
+            # Parse the header line
+            # Format: ------------ Step <step> ----- CPU = <cpu> (sec) -------------
+            clean_line = line.replace("-", " ")
+            parts = clean_line.split()
+
+            if "Step" in parts:
+                try:
+                    step_idx = parts.index("Step") + 1
+                    current_step["Step"] = int(parts[step_idx])
+                except (ValueError, IndexError):
+                    pass
+
+            if "CPU" in parts:
+                try:
+                    # CPU = <val>
+                    if "CPU" in parts:
+                        cpu_idx = parts.index("CPU") + 2 # Skip '='
+                        if cpu_idx < len(parts):
+                             current_step["CPU"] = float(parts[cpu_idx])
+                except (ValueError, IndexError):
+                    pass
+
+        elif "=" in line:
+            # Parse Key = Value pairs
+            # Example: TotEng = -5.2737 KinEng = 1.4996
+            parts = line.split()
+            # Iterate in chunks of 3: Key, =, Value
+            i = 0
+            while i + 2 < len(parts):
+                if parts[i+1] == "=":
+                    key = parts[i]
+                    try:
+                        value = float(parts[i+2])
+                        current_step[key] = value
+                    except ValueError:
+                        pass
+                    i += 3
+                else:
+                    # In case parsing gets out of sync, advance 1
+                    i += 1
+
+    # Append the last step if exists
+    if current_step:
+        data.append(current_step)
+
+    return pd.DataFrame(data)
 
 def read_log(filename):
     """
@@ -19,10 +86,6 @@ def read_log(filename):
     pd.DataFrame
         DataFrame containing all thermo data from the log file.
     """
-    import pandas as pd
-
-    start_thermo_strings = ["Memory usage per processor", "Per MPI rank memory allocation"]
-    stop_thermo_strings = ["Loop time", "ERROR", "Fix halt condition"]
 
     if hasattr(filename, "read"):
         logfile = filename
@@ -42,38 +105,58 @@ def read_log(filename):
     run_num = 0
     i = 0
 
-    while i < len(contents):
+    # Pre-calculate length to avoid repeated len() calls in while loop condition
+    n_lines = len(contents)
+
+    while i < n_lines:
         line = contents[i]
 
         if keyword_flag:
             block_lines = []
             # Capture the block until a stop string is found
-            while i < len(contents):
+            while i < n_lines:
                 line = contents[i]
-                if any(s in line for s in stop_thermo_strings):
+                # Optimization: Unroll any() for speed
+                if "Loop time" in line or "ERROR" in line or "Fix halt condition" in line:
                     break
                 block_lines.append(line)
                 i += 1
 
-            # Parse the captured block
-            tmp_string = "".join(block_lines)
-            if tmp_string.strip():
-                try:
-                    # pandas read_csv with whitespace separator
-                    df = pd.read_csv(StringIO(tmp_string), sep=r'\s+')
+            if block_lines:
+                # Check for multi style in the first few lines (optimization)
+                is_multi = False
+                for j in range(min(10, len(block_lines))):
+                     if block_lines[j].strip().startswith("------------ Step"):
+                         is_multi = True
+                         break
+
+                if is_multi:
+                    df = _parse_multi_style(block_lines)
                     if not df.empty:
                         df['run_num'] = run_num
                         dfs.append(df)
                         run_num += 1
-                except pd.errors.EmptyDataError:
-                    pass
+                else:
+                    # Parse the captured block
+                    tmp_string = "".join(block_lines)
+                    if tmp_string.strip():
+                        try:
+                            # pandas read_csv with whitespace separator
+                            df = pd.read_csv(StringIO(tmp_string), sep=r'\s+')
+                            if not df.empty:
+                                df['run_num'] = run_num
+                                dfs.append(df)
+                                run_num += 1
+                        except pd.errors.EmptyDataError:
+                            pass
 
             keyword_flag = False
             # Don't increment i here, we want to process the stop line (though usually it just ends the block)
             continue
 
         # Check for start strings
-        if any(line.startswith(s) for s in start_thermo_strings):
+        # Optimization: Unroll any() for speed
+        if line.startswith("Memory usage per processor") or line.startswith("Per MPI rank memory allocation"):
             keyword_flag = True
 
         i += 1
