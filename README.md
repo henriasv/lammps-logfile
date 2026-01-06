@@ -28,7 +28,8 @@ from lammps_logfile import read_log
 import matplotlib.pyplot as plt
 
 # Read the log file into a DataFrame
-df = read_log("log.lammps")
+# This example uses the 'crack_log.lammps' file found in 'examples/logfiles/'
+df = read_log("crack_log.lammps")
 
 # The DataFrame contains data from all runs, with a 'run_num' column distinguishing them
 print(df.head())
