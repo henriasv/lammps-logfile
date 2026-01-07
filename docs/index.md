@@ -106,9 +106,9 @@ reference/legacy/index
 ```{toctree}
 :maxdepth: 2
 :hidden:
-:caption: Development
+:caption: Contributing & Development
 
 development/index
 citing
-how_to/log_parsing
+development/log_parsing
 ```
