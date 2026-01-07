@@ -42,7 +42,7 @@ plt.ylabel('Temperature')
 plt.show()
 ```
 
-![Example Plot](docs/readme_example.png)
+![Example Plot](https://github.com/henriasv/lammps-logfile/raw/master/docs/readme_example.png)
 
 ## Benchmarks
 
