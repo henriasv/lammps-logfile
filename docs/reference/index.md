@@ -6,14 +6,6 @@
 .. autofunction:: lammps_logfile.read_log
 ```
 
-## Command Line Interface
-
-```{toctree}
-:maxdepth: 1
-
-cli
-```
-
 ## Utilities
 
 ```{eval-rst}
@@ -21,12 +13,12 @@ cli
     :members:
 ```
 
-## Legacy Interface
+## Command Line Interface
 
-The following classes are maintained for backward compatibility. New users should prefer `read_log`.
+`lammps-logfile` includes a command-line interface (CLI) tool called `lammps_logplotter` for quick visualization of log files without writing any Python code.
 
-```{toctree}
-:maxdepth: 2
-
-legacy/index
+```{argparse}
+:module: lammps_logfile.cmd_interface
+:func: get_parser
+:prog: lammps_logplotter
 ```
