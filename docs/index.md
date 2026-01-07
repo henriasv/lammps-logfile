@@ -67,17 +67,46 @@ plt.show()
 :align: center
 ```
 
-## Documentation
+## Command Line Interface
+
+`lammps-logfile` also comes with a CLI for quick plotting:
+
+```bash
+lammps_logplotter log.lammps -x Step -y Temp
+```
 
 ```{toctree}
 :maxdepth: 2
 :hidden:
+:caption: Tutorials
 
-tutorials/index
-how_to/index
-reference/index
-explanation/index
+tutorials/installation
+tutorials/quickstart
+```
+
+```{toctree}
+:maxdepth: 2
+:hidden:
+:caption: How-To Guides
+
 examples/index
+```
+
+```{toctree}
+:maxdepth: 2
+:hidden:
+:caption: Reference
+
+reference/index
+reference/legacy/index
+```
+
+```{toctree}
+:maxdepth: 2
+:hidden:
+:caption: Development
+
 development/index
 citing
+how_to/log_parsing
 ```

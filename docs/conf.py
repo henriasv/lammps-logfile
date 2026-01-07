@@ -50,6 +50,9 @@ html_theme_options = {
     "source_directory": "docs/",
 }
 
+html_static_path = ['_static']
+html_css_files = ['custom.css']
+
 # -- Sphinx Gallery Configuration --------------------------------------------
 
 from sphinx_gallery.sorting import FileNameSortKey
@@ -59,6 +62,7 @@ sphinx_gallery_conf = {
      'gallery_dirs': 'examples',  # path to where to save gallery generated output
      'filename_pattern': 'plot_',
      'within_subsection_order': FileNameSortKey,
+     'download_all_examples': False,
 }
 
 # -- MyST Parser Configuration -----------------------------------------------
