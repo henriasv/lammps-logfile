@@ -25,7 +25,7 @@
 :::{grid-item-card}
 :class-card: sd-border-1 sd-shadow-none
 
-**^{octicon}`graph;1.2em;sd-text-primary` Pandas Native**
+**{octicon}`graph;1.2em;sd-text-primary`   Pandas Native**
 ^^^
 Direct conversion to DataFrames for instant plotting and analysis.
 :::
@@ -33,7 +33,7 @@ Direct conversion to DataFrames for instant plotting and analysis.
 :::{grid-item-card}
 :class-card: sd-border-1 sd-shadow-none
 
-**^{octicon}`shield-check;1.2em;sd-text-success` Robust Parsing**
+**{octicon}`shield-check;1.2em;sd-text-success` Robust Parsing**
 ^^^
 Handles interrupted simulations and changing headers gracefully.
 :::
@@ -41,7 +41,7 @@ Handles interrupted simulations and changing headers gracefully.
 :::{grid-item-card}
 :class-card: sd-border-1 sd-shadow-none
 
-**^{octicon}`zap;1.2em;sd-text-warning` High Performance**
+**{octicon}`zap;1.2em;sd-text-warning` High Performance**
 ^^^
 Optimized C-engine parsing for multi-gigabyte log files.
 :::
