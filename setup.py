@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setup(name='lammps-logfile',
-      version='1.1',
+      version='1.1.0',
       description='Tool to read lammps log files into python data structure',
       long_description=long_description,
       long_description_content_type="text/markdown",
