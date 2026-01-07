@@ -50,3 +50,12 @@ This command yields an output like the one below, which shows what columns we ma
 
 ```{literalinclude} python/legacy_output.txt
 ```
+
+## Legacy File API
+
+```{eval-rst}
+.. autoclass:: lammps_logfile.File
+   :members:
+   :undoc-members:
+   :show-inheritance:
+```

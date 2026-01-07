@@ -4,12 +4,17 @@ import matplotlib
 def running_mean(data, N):
     """Calculate running mean of an array-like dataset.
 
-    Parameters 
-    --------------------
-    :param data: The array 
-    :type data: 1d array-like
-    :param N: Width of the averaging window
-    :type N: int 
+    Parameters
+    ----------
+    data : array_like
+        The array.
+    N : int
+        Width of the averaging window.
+
+    Returns
+    -------
+    numpy.ndarray
+        The running mean of the input data.
 
     """
     
@@ -27,14 +32,24 @@ def get_color_value(value, minValue, maxValue, cmap='viridis'):
     """Get color from colormap.
 
     Parameters
-    -----------------
-    :param value: Value used tpo get color from colormap
-    :param minValue: Minimum value in colormap. Values below this value will saturate on the lower color of the colormap.
-    :param maxValue: Maximum value in colormap. Values above this value will saturate on the upper color of the colormap.
+    ----------
+    value : float
+        Value used to get color from colormap.
+    minValue : float
+        Minimum value in colormap. Values below this value will saturate on the lower color of the colormap.
+    maxValue : float
+        Maximum value in colormap. Values above this value will saturate on the upper color of the colormap.
+    cmap : str, optional
+        Name of the colormap to use. Default is 'viridis'.
 
-    :returns: 4-vector containing colormap values. 
+    Returns
+    -------
+    tuple
+        4-vector containing colormap values.
 
-    This is useful if you are plotting data from several simulations, and want to color them based on some parameters changing between the simulations. For example, you may want the color to gradually change along a clormap as the temperature increases. 
+    Notes
+    -----
+    This is useful if you are plotting data from several simulations, and want to color them based on some parameters changing between the simulations. For example, you may want the color to gradually change along a colormap as the temperature increases.
 
     """
     diff = maxValue-minValue
@@ -46,11 +61,14 @@ def get_matlab_color(i):
     """Get colors from matlabs standard color order. 
 
     Parameters
-    -------------
-    :param i: Index. Cycles with a period of 7, so calling with 1 returns the same color as calling with 8. 
-    :type i: int 
+    ----------
+    i : int
+        Index. Cycles with a period of 7, so calling with 1 returns the same color as calling with 8.
 
-    :returns: color as 3-vector 
+    Returns
+    -------
+    numpy.ndarray
+        Color as 3-vector.
 
     """
     colors = np.asarray([ [0, 0.447000000000000, 0.741000000000000],

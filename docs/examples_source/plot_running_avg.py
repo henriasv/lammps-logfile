@@ -12,14 +12,7 @@ import os
 import pandas as pd
 
 # Path to the example log file
-try:
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-except NameError:
-    script_dir = os.getcwd()
-
-candidate_path = os.path.abspath(os.path.join(script_dir, "../../examples/logfiles/crack_log.lammps"))
-
-log_path = candidate_path
+log_path = 'crack_log.lammps'
 
 # Read the log file
 data = lammps_logfile.read_log(log_path)
@@ -36,6 +29,7 @@ plt.plot(data['Step'], data['Temp_Rolling'], label=f'Running Avg (Window={window
 
 plt.xlabel('Step')
 plt.ylabel('Temperature (K)')
+plt.ylim(215, 240)
 plt.title('Temperature with Running Average')
 plt.legend()
 plt.grid(True, alpha=0.3)
