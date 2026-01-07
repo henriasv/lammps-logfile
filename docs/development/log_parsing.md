@@ -53,15 +53,14 @@ TotEng   = -5.2737        KinEng   = 1.4996
 *   **Parsing**: A specialized function `_parse_multi_style` iterates through the lines. It extracts the `Step` and `CPU` from the separator line and parses the following `Key = Value` pairs into a dictionary for that timestep.
 
 ## Performance Optimization
+Parsing large text files requires careful optimization. `lammps-logfile` achieves **>100 MB/s** effective parsing speeds through:
 
-Parsing large text files requires careful optimization. `lammps-logfile` achieves ~50 MB/s parsing speeds through:
-
-1.  **Hybrid Parsing**: The file is scanned line-by-line in Python to identify relevant blocks. While this involves iterating the whole file, the operations per line are minimized (simple string checks).
-2.  **Pandas C-Engine**: The extraction of thermodynamic data (the heavy lifting) is delegated to `pandas.read_csv`, which uses a highly optimized C backend. This is significantly faster than parsing values in Python loops.
-3.  **Fast Conditionals**: String matching for block start/end tokens is optimized to return early, avoiding complex regex.
+1.  **Memory-Mapped Scanning**: The library uses `mmap` to scan the file for data blocks directly on disk, avoiding the need to load the entire text file into Python memory.
+2.  **Zero-Copy Slicing**: Identified data blocks are passed as memory views directly to `pandas.read_csv`, minimizing data copying.
+3.  **Pandas C-Engine**: The heavy numeric parsing is handled by the optimized Pandas C-backend.
 
 > [!NOTE]
-> **Memory Usage**: The current implementation reads the entire file into memory (`readlines()`) to maximize line iteration speed. This results in memory usage approximately **2-3x the file size**. For very large files (e.g., larger than available RAM), this may be a limitation.
+> **Minimal Memory Footprint**: Unlike naïve parsers that read the whole file (`readlines()`), this implementation's memory usage is primarily determined by the size of the *output* data, not the input text file.
 
 ## Completeness & Accuracy
 

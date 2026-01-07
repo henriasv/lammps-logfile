@@ -50,13 +50,13 @@ plt.show()
 
 | Simulation | Runs | Steps | Memory (MB) | Time (s) |
 |:---|---:|---:|---:|---:|
-| 01_fcc_thermo_multi | 3 | 29 | 0.45 | 0.00 |
-| 02_bcc_custom_thermo | 4 | 108 | 0.41 | 0.00 |
-| 03_fcc_custom_longlog | 4 | 30004 | 51.36 | 0.06 |
-| 04_bcc_multi_then_custom | 5 | 62 | 0.22 | 0.01 |
-| **1 GB Log File** | 1 | 23,600,000 | 2931.48 | 17.32 |
+| 01_fcc_thermo_multi | 3 | 29 | 0.36 | 0.01 |
+| 02_bcc_custom_thermo | 4 | 108 | 0.30 | 0.01 |
+| 03_fcc_custom_longlog | 4 | 30004 | 21.05 | 0.07 |
+| 04_bcc_multi_then_custom | 5 | 62 | 0.27 | 0.01 |
+| **1 GB Log File** | 1 | 23,600,000 | 2560.08 | **10.10** |
 
-It uses a block-based parser with `pd.read_csv` (C engine) to efficiently skip non-thermodynamic data.
+It uses a **memory-mapped parser** (backed by the Pandas C engine) to blazing fast performance while keeping memory usage proportional to the output data size.
 
 ## Legacy Interface
 The `File` class interface is kept for backward compatibility but is considered legacy.
