@@ -1,6 +1,6 @@
 # Citing this Software
 
-If you use `lammps-logfile` in your research, please cite it using the following metadata.
+The following citation data is available for this package.
 
 ## BibTeX
 

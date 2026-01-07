@@ -89,7 +89,7 @@ tutorials/quickstart
 :hidden:
 :caption: How-To Guides
 
-how_to/log_parsing
+examples/index
 ```
 
 ```{toctree}
@@ -104,16 +104,9 @@ reference/legacy/index
 ```{toctree}
 :maxdepth: 2
 :hidden:
-:caption: Examples
-
-examples/index
-```
-
-```{toctree}
-:maxdepth: 2
-:hidden:
 :caption: Development
 
 development/index
 citing
+how_to/log_parsing
 ```
