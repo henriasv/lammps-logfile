@@ -5,13 +5,13 @@ import pandas as pd
 
 
 class File:
-    """Class for handling lammps log files.
+    """
+    Class for handling lammps log files.
 
     Parameters
-    ----------------------
-    :param ifile: path to lammps log file 
-    :type ifile: string or file  
-
+    ----------
+    ifile : str or file
+        Path to lammps log file or a file-like object.
     """
     def __init__(self, ifile):
         # Identifiers for places in the log file
@@ -76,16 +76,24 @@ class File:
         self.keywords = keywords
 
     def get(self, entry_name, run_num=-1):
-        """Get time-series from log file by name.
+        """
+        Get time-series from log file by name.
 
-        Paramerers
-        --------------------
-        :param entry_name: Name of the entry, for example "Temp"
-        :type entry_name: str
-        :param run_num: Lammps simulations commonly involve several run-commands. Here you may choose what run you want the log data from. Default of :code:`-1` returns data from all runs concatenated 
-        :type run_num: int 
-        
-        If the rows in the log file changes between runs, the logs are being flushed. 
+        If the rows in the log file changes between runs, the logs are being flushed.
+
+        Parameters
+        ----------
+        entry_name : str
+            Name of the entry, for example "Temp".
+        run_num : int, optional
+            Lammps simulations commonly involve several run-commands. Here you may choose
+            what run you want the log data from. Default of -1 returns data from all runs
+            concatenated.
+
+        Returns
+        -------
+        numpy.ndarray or None
+            Array containing the requested data, or None if the entry is not found.
         """
 
         if run_num == -1:
@@ -104,7 +112,19 @@ class File:
                 return None
 
     def get_keywords(self, run_num=-1):
-        """Return list of available data columns in the log file."""
+        """
+        Return list of available data columns in the log file.
+
+        Parameters
+        ----------
+        run_num : int, optional
+            The run number to get keywords for. Default is -1 (all unique keywords found).
+
+        Returns
+        -------
+        list
+            Sorted list of available data columns.
+        """
         if run_num == -1:
             return sorted(self.keywords)
         else:
@@ -114,6 +134,16 @@ class File:
                 return None
 
     def to_exdir_group(self, name, exdirfile):
+        """
+        Writes the log file data to an Exdir group.
+
+        Parameters
+        ----------
+        name : str
+            Name of the group to create.
+        exdirfile : exdir.File
+            The Exdir file object to write to.
+        """
         group = exdirfile.require_group(name)
         for i, log in enumerate(self.partial_logs):
             subgroup = group.require_group(str(i))
@@ -122,13 +152,41 @@ class File:
                 subgroup.create_dataset(key, data=value)
 
     def to_dataframe(self, run_num=-1):
+        """
+        Converts the log data for a specific run to a pandas DataFrame.
+
+        Parameters
+        ----------
+        run_num : int, optional
+            The run number to convert. Default is -1 (last run).
+
+        Returns
+        -------
+        pandas.DataFrame
+            DataFrame containing the log data for the specified run.
+        """
         return pd.DataFrame(self.partial_logs[run_num])
 
 
     def get_num_partial_logs(self):
+        """
+        Returns the number of partial logs (runs) found in the file.
+
+        Returns
+        -------
+        int
+            Number of runs.
+        """
         return len(self.partial_logs)
 
     @property
     def names(self):
-        """Exposes the keywords returned by get_keywords."""
+        """
+        Exposes the keywords returned by get_keywords.
+
+        Returns
+        -------
+        list
+            List of keywords.
+        """
         return self.get_keywords()

@@ -72,12 +72,41 @@ plt.show()
 ```{toctree}
 :maxdepth: 2
 :hidden:
+:caption: Tutorials
 
-tutorials/index
-how_to/index
+tutorials/installation
+tutorials/quickstart
+```
+
+```{toctree}
+:maxdepth: 2
+:hidden:
+:caption: How-To Guides
+
+how_to/log_parsing
+```
+
+```{toctree}
+:maxdepth: 2
+:hidden:
+:caption: Reference
+
 reference/index
-explanation/index
+```
+
+```{toctree}
+:maxdepth: 2
+:hidden:
+:caption: Examples
+
 examples/index
+```
+
+```{toctree}
+:maxdepth: 2
+:hidden:
+:caption: Development
+
 development/index
 citing
 ```
