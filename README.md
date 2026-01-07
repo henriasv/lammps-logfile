@@ -46,14 +46,17 @@ plt.show()
 
 ## Benchmarks
 
-The following benchmarks demonstrate the performance of `read_log` on various log files (including those with mixed `thermo_style` outputs). The benchmarks were run on the provided examples.
+`lammps-logfile` is highly optimized for large files. These benchmarks were run on a standard laptop (MacBook Pro M1).
 
-| Simulation                              |   Runs |   Steps |   Memory (MB) |   Time (s) |
-|:----------------------------------------|-------:|--------:|--------------:|-----------:|
-| 01_fcc_thermo_multi/out/log.lammps      |      3 |      29 |          0.10 |     0.02   |
-| 02_bcc_custom_thermo/out/log.lammps     |      4 |     108 |          0.15 |     0.03   |
-| 03_fcc_custom_longlog/out/log.lammps    |      4 |   30004 |         21.77 |     0.37   |
-| 04_bcc_multi_then_custom/out/log.lammps |      5 |      62 |          0.17 |     0.04   |
+| Simulation | Runs | Steps | Memory (MB) | Time (s) |
+|:---|---:|---:|---:|---:|
+| 01_fcc_thermo_multi | 3 | 29 | 0.45 | 0.00 |
+| 02_bcc_custom_thermo | 4 | 108 | 0.41 | 0.00 |
+| 03_fcc_custom_longlog | 4 | 30004 | 51.36 | 0.06 |
+| 04_bcc_multi_then_custom | 5 | 62 | 0.22 | 0.01 |
+| **1 GB Log File** | 1 | 23,600,000 | 2931.48 | 17.32 |
+
+It uses a block-based parser with `pd.read_csv` (C engine) to efficiently skip non-thermodynamic data.
 
 ## Legacy Interface
 The `File` class interface is kept for backward compatibility but is considered legacy.

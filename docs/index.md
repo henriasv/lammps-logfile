@@ -19,34 +19,31 @@
 
 ## Key Features
 
-::::{grid} 1 1 3 3
-:gutter: 2
+::::{grid} 1 2 3 3
+:gutter: 3
 
-:::{grid-item-card}  Pandas Native
-:text-align: center
-:class-card: sd-border-1 sd-shadow-sm
+:::{grid-item-card}
+:class-card: sd-border-1 sd-shadow-none
 
-^{octicon}`graph;2em;sd-text-primary`
-
-Direct conversion to **Pandas DataFrames** for instant plotting, filtering, and analysis.
+**^{octicon}`graph;1.2em;sd-text-primary` Pandas Native**
+^^^
+Direct conversion to DataFrames for instant plotting and analysis.
 :::
 
-:::{grid-item-card}  Robust Parsing
-:text-align: center
-:class-card: sd-border-1 sd-shadow-sm
+:::{grid-item-card}
+:class-card: sd-border-1 sd-shadow-none
 
-^{octicon}`shield-check;2em;sd-text-success`
-
-Handles **interrupted simulations**, changing headers, and multi-stage workflows gracefully.
+**^{octicon}`shield-check;1.2em;sd-text-success` Robust Parsing**
+^^^
+Handles interrupted simulations and changing headers gracefully.
 :::
 
-:::{grid-item-card}  High Performance
-:text-align: center
-:class-card: sd-border-1 sd-shadow-sm
+:::{grid-item-card}
+:class-card: sd-border-1 sd-shadow-none
 
-^{octicon}`zap;2em;sd-text-warning`
-
-Optimized **C-engine parsing** capable of processing multi-gigabyte log files in seconds.
+**^{octicon}`zap;1.2em;sd-text-warning` High Performance**
+^^^
+Optimized C-engine parsing for multi-gigabyte log files.
 :::
 ::::
 
