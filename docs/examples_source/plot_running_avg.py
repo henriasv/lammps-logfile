@@ -19,7 +19,7 @@ data = lammps_logfile.read_log(log_path)
 
 # Calculate a rolling average (window size of 50 steps for demonstration)
 # Note: The window size depends on your data frequency and noise.
-window_size = 5
+window_size = 50
 data['Temp_Rolling'] = data['Temp'].rolling(window=window_size).mean()
 
 # Plot raw data vs rolling average

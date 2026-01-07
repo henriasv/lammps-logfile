@@ -2,11 +2,18 @@
 
 We welcome contributions!
 
-```{toctree}
-:maxdepth: 2
+## Setup
 
-contributing
-```
+1.  Clone the repository:
+    ```bash
+    git clone https://github.com/henriasv/lammps-logfile.git
+    cd lammps-logfile
+    ```
+
+2.  Install in editable mode with dependencies:
+    ```bash
+    pip install -e .[docs]
+    ```
 
 ## Running Tests
 
