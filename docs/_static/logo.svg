@@ -37,11 +37,12 @@
     <line x1="140" y1="380" x2="380" y2="380" /> <!-- X Axis -->
   </g>
   <!-- Labels -->
-  <text x="120" y="145" font-family="Arial, sans-serif" font-weight="bold" font-size="28" fill="#343a40">T</text>
+  <text x="110" y="145" font-family="Arial, sans-serif" font-weight="bold" font-size="28" fill="#343a40">T</text>
   <text x="390" y="390" font-family="Arial, sans-serif" font-weight="bold" font-size="28" fill="#343a40">P</text>
   
-  <!-- Smooth Curve -->
-  <path d="M140,300 C180,300 200,340 240,260 C280,180 320,160 380,180" fill="none" stroke="#228be6" stroke-width="10" stroke-linecap="round"/>
+  <!-- Smooth Monotonic Curve -->
+  <!-- Starts low left, goes high right without dipping -->
+  <path d="M140,350 C200,340 240,280 380,160" fill="none" stroke="#228be6" stroke-width="10" stroke-linecap="round"/>
 
   <!-- Scattered Atoms & Water -->
   <!-- Top Right -->
