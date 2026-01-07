@@ -19,29 +19,35 @@
 
 ## Key Features
 
-::::{grid} 1 1 2 3
+::::{grid} 1 1 3 3
+:gutter: 2
 
-:::{grid-item}
-:class: sd-card
+:::{grid-item-card}  Pandas Native
+:text-align: center
+:class-card: sd-border-1 sd-shadow-sm
 
-**Pandas-Ready**
-Direct conversion to DataFrames for instant plotting and analysis.
+^{octicon}`graph;2em;sd-text-primary`
+
+Direct conversion to **Pandas DataFrames** for instant plotting, filtering, and analysis.
 :::
 
-:::{grid-item}
-:class: sd-card
+:::{grid-item-card}  Robust Parsing
+:text-align: center
+:class-card: sd-border-1 sd-shadow-sm
 
-**Robust**
-Handles `run 0`, header changes, multiple runs, and interrupted simulations gracefully.
+^{octicon}`shield-check;2em;sd-text-success`
+
+Handles **interrupted simulations**, changing headers, and multi-stage workflows gracefully.
 :::
 
-:::{grid-item}
-:class: sd-card
+:::{grid-item-card}  High Performance
+:text-align: center
+:class-card: sd-border-1 sd-shadow-sm
 
-**Fast**
-Optimized for performance, capable of parsing multi-gigabyte log files efficiently.
+^{octicon}`zap;2em;sd-text-warning`
+
+Optimized **C-engine parsing** capable of processing multi-gigabyte log files in seconds.
 :::
-
 ::::
 
 ## 30-Second Quickstart
