@@ -54,12 +54,14 @@ TotEng   = -5.2737        KinEng   = 1.4996
 
 ## Performance Optimization
 
-Parsing large text files (gigabytes in size) requires careful optimization. `lammps-logfile` implements several strategies:
+Parsing large text files requires careful optimization. `lammps-logfile` achieves ~50 MB/s parsing speeds through:
 
-1.  **Block-Level Scanning**: The parser only performs heavy processing (DataFrame creation) on the isolated thermodynamic blocks, ignoring the vast majority of the log file text.
-2.  **Early Detection**: The check for `multi` style is limited to the first 10 lines of a block to avoid scanning the entire block twice.
-3.  **Fast Conditionals**: Complex string matching (like checking for multiple stop strings) is optimized by "unrolling" `any()` calls or using specific string checks that return early.
-4.  **Pandas C-Engine**: For standard `custom` logs, the library uses `pandas.read_csv` directly on the in-memory string buffer (`io.StringIO`). This leverages the highly optimized C implementation of the CSV parser.
+1.  **Hybrid Parsing**: The file is scanned line-by-line in Python to identify relevant blocks. While this involves iterating the whole file, the operations per line are minimized (simple string checks).
+2.  **Pandas C-Engine**: The extraction of thermodynamic data (the heavy lifting) is delegated to `pandas.read_csv`, which uses a highly optimized C backend. This is significantly faster than parsing values in Python loops.
+3.  **Fast Conditionals**: String matching for block start/end tokens is optimized to return early, avoiding complex regex.
+
+> [!NOTE]
+> **Memory Usage**: The current implementation reads the entire file into memory (`readlines()`) to maximize line iteration speed. This results in memory usage approximately **2-3x the file size**. For very large files (e.g., larger than available RAM), this may be a limitation.
 
 ## Completeness & Accuracy
 
