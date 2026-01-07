@@ -90,6 +90,8 @@ tutorials/quickstart
 :caption: How-To Guides
 
 examples/index
+how_to/cli
+how_to/pandas_tips
 ```
 
 ```{toctree}

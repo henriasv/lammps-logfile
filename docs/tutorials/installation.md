@@ -11,5 +11,5 @@ or manually
 ```bash
 git clone https://github.com/henriasv/lammps-logfile
 cd lammps-logfile
-python setup.py
+pip install .
 ```
