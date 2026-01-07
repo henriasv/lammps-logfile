@@ -4,7 +4,7 @@
 :target: https://pypi.org/project/lammps-logfile/
 :alt: PyPI Version
 ```
-```{image} https://img.shields.io/pypi/pyversions/lammps-logfile.svg
+```{image} https://img.shields.io/badge/python-3.8+-blue.svg
 :target: https://pypi.org/project/lammps-logfile/
 :alt: Python Versions
 ```

@@ -4,3 +4,4 @@ myst-parser
 sphinx-argparse
 sphinx-copybutton
 sphinx-design
+sphinx-gallery
