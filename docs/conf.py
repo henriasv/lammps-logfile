@@ -10,7 +10,7 @@ project = 'lammps-logfile'
 copyright = '2020, Henrik Andersen Sveinsson'
 author = 'Henrik Andersen Sveinsson'
 version = '1.1.2'
-release = '1.1.2'
+release = '1.1.3'
 
 # -- General configuration ---------------------------------------------------
 
