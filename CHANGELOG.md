@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [1.1.4] - 2026-08-28
 
 ### Fixed
 - Thermo blocks that are not terminated by a `Loop time` line (e.g. an interrupted run, or a LAMMPS build that does not print the loop summary) are now parsed correctly by both `read_log` and `File`. Previously the trailing `Total wall time` line (or the next run's setup output) was swallowed into the data as a garbage row, turning numeric columns into strings. A block now ends at `Total wall time`, at the next run's start marker, or at end of file, and any remaining non-numeric lines inside a block (e.g. a `WARNING` printed mid-run) are skipped.
