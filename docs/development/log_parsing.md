@@ -23,11 +23,16 @@ When one of these strings is encountered, the parser enters a "capture mode". It
 stop_strings = [
     "Loop time",
     "ERROR",
-    "Fix halt condition"
+    "Fix halt condition",
+    "Total wall time"
 ]
 ```
 
+A block also ends at the next *start* string, or at end of file. This matters for runs that never print a `Loop time` summary (an interrupted run, or a LAMMPS build that skips it): their thermo output runs straight into `Total wall time` or into the next run's setup output, and neither may be captured as data.
+
 This robustly isolates the thermodynamic data from other log output (e.g., potential energy initialization, neighbor list builds).
+
+Both marker lists live in `lammps_logfile.reader` (`START_MARKERS`, `STOP_MARKERS`) and are shared by `read_log` and the `File` class.
 
 ## Handling Run Styles
 
@@ -37,8 +42,9 @@ LAMMPS allows for different `thermo_style` settings, which produce different out
 
 In the `custom` style (or `one`), the data is preceded by a header line containing the column names (e.g., `Step Temp Press`).
 
-*   **Logic**: The parser accumulates the block lines and passes them to `pandas.read_csv` using the C-based engine.
+*   **Logic**: The parser accumulates the block lines and passes them to `pandas.read_csv` using the C-based engine (`_parse_custom_block`).
 *   **Separator**: Since LAMMPS uses whitespace, `sep=r'\s+'` is used.
+*   **Validation**: If the resulting frame has a non-numeric column, or pandas fails to parse the block, the block contained lines that are not thermo rows (e.g. a `WARNING` printed mid-run). The block is then re-parsed keeping only the header and the lines that consist purely of numbers with the same column count as the header. Well-formed logs never take this slower path.
 
 ### `thermo_style multi`
 
@@ -55,7 +61,7 @@ TotEng   = -5.2737        KinEng   = 1.4996
 ## Performance Optimization
 Parsing large text files requires careful optimization. `lammps-logfile` achieves **>100 MB/s** effective parsing speeds through:
 
-1.  **Memory-Mapped Scanning**: The library uses `mmap` to scan the file for data blocks directly on disk, avoiding the need to load the entire text file into Python memory.
+1.  **Memory-Mapped Scanning**: The library uses `mmap` to scan the file for data blocks directly on disk, avoiding the need to load the entire text file into Python memory. The next position of each start/stop marker is memoized (`_MarkerFinder`), so a marker that is absent from the rest of the file is not re-scanned for every block; this keeps parsing linear in file size regardless of the number of `run` commands.
 2.  **Zero-Copy Slicing**: Identified data blocks are passed as memory views directly to `pandas.read_csv`, minimizing data copying.
 3.  **Pandas C-Engine**: The heavy numeric parsing is handled by the optimized Pandas C-backend.
 

@@ -1,7 +1,7 @@
-from io import BytesIO, StringIO
-
 import numpy as np
 import pandas as pd
+
+from .reader import START_MARKERS, STOP_MARKERS, _parse_custom_block
 
 
 class File:
@@ -15,8 +15,8 @@ class File:
     """
     def __init__(self, ifile):
         # Identifiers for places in the log file
-        self.start_thermo_strings = ["Memory usage per processor", "Per MPI rank memory allocation"]
-        self.stop_thermo_strings = ["Loop time", "ERROR", "Fix halt condition"]
+        self.start_thermo_strings = list(START_MARKERS)
+        self.stop_thermo_strings = list(STOP_MARKERS)
         self.data_dict = {}
         self.keywords = []
         self.output_before_first_run = ""
@@ -40,8 +40,10 @@ class File:
             if keyword_flag:
                 keywords = line.split()
                 tmpString = ""
-                # Check wheter any of the thermo stop strings are in the present line
-                while not sum([string in line for string in self.stop_thermo_strings]) >= 1:
+                # Collect lines until a stop string, or the start of the next run
+                # (for runs that never printed "Loop time"), or end of file.
+                while not (any(string in line for string in self.stop_thermo_strings)
+                           or any(line.startswith(string) for string in self.start_thermo_strings)):
                     if "\n" in line:
                         tmpString+=line
                     i+=1
@@ -49,7 +51,7 @@ class File:
                         line = contents[i]
                     else:
                         break
-                partialLogContents = pd.read_table(StringIO(tmpString), sep=r'\s+')
+                partialLogContents = _parse_custom_block(tmpString)
 
                 if (self.keywords != keywords):
                     # If the log keyword changes, i.e. the thermo data to be outputted chages,

@@ -1,3 +1,4 @@
+import io
 import unittest
 import pandas as pd
 from lammps_logfile import read_log
@@ -63,6 +64,15 @@ class TestReadLog(unittest.TestCase):
         # thermo_style custom step temp pxx pyy cpuremain
         # So yes, 'Time' should be NaN for run 2.
         self.assertTrue(pd.isna(run2.iloc[0]['Time']))
+
+    def test_read_log_from_stream(self):
+        # A StringIO cannot be memory-mapped; read_log must fall back to the
+        # line-based reader and give the same result as reading the path.
+        with open("tests/data/log.lammps") as f:
+            df = read_log(io.StringIO(f.read()))
+        self.assertEqual(len(df), 107)
+        self.assertEqual(set(df['run_num'].unique()), {0, 1, 2})
+        pd.testing.assert_frame_equal(df, read_log("tests/data/log.lammps"))
 
 if __name__ == '__main__':
     unittest.main()
